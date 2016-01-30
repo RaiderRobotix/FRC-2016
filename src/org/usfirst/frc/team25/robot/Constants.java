@@ -20,7 +20,7 @@ public abstract class Constants {
 	public static final int RIGHT_ENCODER_PWM_B = 1;
 
 	private static final double TIRE_CIRCUMFERENCE = 28.117254;
-	private static final double COUNTS_PER_REVOLUTION = 83.5;
+	private static final double COUNTS_PER_REVOLUTION = 80.0;
 	public static final double INCHES_PER_COUNT = TIRE_CIRCUMFERENCE
 			/ COUNTS_PER_REVOLUTION;
 	

@@ -83,6 +83,14 @@ public class Drivebase {
 		m_rightEncoder.reset();
 	}
 
+	/**
+	 * Keep the robot driving straight for specified distance.
+	 * 
+	 * @param distance (in inches)
+	 * @param speed (initial speed)
+	 * 
+	 * @return True if complete 
+	 */
 	public boolean driveStraight(double distance, double speed) {
 		brakesOff();
 		double absoluteDistance = Math.abs(distance);
@@ -95,39 +103,39 @@ public class Drivebase {
 			if (absoluteDistance * (2.0 / 3.0) <= averageDistance) {
 				m_driveStep++;
 			}
-		} else if (m_driveStep == 2) {
+		} else if (m_driveStep == 2) { // If over 2/3 distance, reduce speed to 3/4
 			if (absoluteDistance * (3.0 / 4.0) <= averageDistance) {
 				m_driveStep++;
 			} else {
 				speed /= 3.5;
 			}
 		} else if (m_driveStep == 3) {
-			if (averageDistance < absoluteDistance) {
+			if (averageDistance < absoluteDistance) { // If close to the end, go to small speed
 				if(distance > 0.0) {
 					setSpeed(0.18, 0.1);
 				} else {
 					setSpeed(-0.1, -0.18);
 				}
-				return true;
+				return false;
 			} else {
 				setSpeed(0.0);
 				m_driveStep = 0;
 				return true;
 			}
 		}
-		speed = Math.abs(speed) * (distance / Math.abs(distance));
+		speed = Math.abs(speed) * (distance / Math.abs(distance)); // Get correct speed sign
 		double adjustment = speed / 10.0;
-		double leftSpeed = speed + (distance < 0.0 ? adjustment : 0.0),
-				rightSpeed = speed - (distance > 0.0 ? adjustment : 0.0);
+		double leftSpeed = speed + (distance < 0.0 ? adjustment : 0.0);
+		double rightSpeed = speed - (distance > 0.0 ? adjustment : 0.0);
 		double error = getLeftEncoderDistance() - getRightEncoderDistance();
-		if (distance > 0.0) {
+		if (distance > 0.0) { // Adjust for backwards motor controllers (Forward)
 			if (error > 0.75) {
 				leftSpeed -= 0.1;
 			} else if (error < -0.75) {
 				rightSpeed -= 0.1;
 			}
 		} else {
-			if (error > 0.75) {
+			if (error > 0.75) { // (Backward)
 				rightSpeed += 0.1;
 			} else if (error < -0.75) {
 				leftSpeed += 0.1;
