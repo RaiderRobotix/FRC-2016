@@ -16,6 +16,10 @@ public class Robot extends IterativeRobot {
 		m_autonController = AutonController.getInstance();
 		m_OI = OI.getInstance();
 		m_drives = Drivebase.getInstance();
+		setupDashboard();
+	}
+
+	private void setupDashboard() {
 		m_autonChooser = new SendableChooser();
 		m_autonChooser.addDefault("Do Nothing (default)", 0);
 		SmartDashboard.putData("Choose Auton Mode: ", m_autonChooser);
@@ -42,6 +46,15 @@ public class Robot extends IterativeRobot {
 
 	public void teleopPeriodic() {
 		m_OI.enableTeleopControls();
+	}
+
+	public void testInit() {
+		m_drives.brakesOff();
+		setupDashboard();
+	}
+
+	public void testPeriodic() {
+		m_drives.brakesOff();
 	}
 
 }

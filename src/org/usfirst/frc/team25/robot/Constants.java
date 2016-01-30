@@ -19,10 +19,13 @@ public abstract class Constants {
 	public static final int RIGHT_ENCODER_PWM_A = 0;
 	public static final int RIGHT_ENCODER_PWM_B = 1;
 
-	public static final double TIRE_CIRCUMFERENCE = 28.117254;
-	public static final double COUNTS_PER_REVOLUTION = 80.0;
+	private static final double TIRE_CIRCUMFERENCE = 28.117254;
+	private static final double COUNTS_PER_REVOLUTION = 83.5;
 	public static final double INCHES_PER_COUNT = TIRE_CIRCUMFERENCE
 			/ COUNTS_PER_REVOLUTION;
+	
+	// Analog Sensors
+	public static final int ULTRASONIC_PWM = 3;
 
 	// Joysticks
 	public static final int LEFT_JOYSTICK_PORT = 0;
