@@ -90,6 +90,21 @@ public class Drivebase {
 		m_rightEncoder.reset();
 	}
 
+	public boolean turnToAngle(double angle, double speed) {
+		brakesOff();
+		if(Math.abs(getGyroAngle() - angle) <= Constants.DRIVE_STRAIGHT_TOLERANCE) {
+			setSpeed(0.0);
+			return true;
+		} else if(Math.abs(getGyroAngle() - angle) <= 30.0) {
+			speed /= 3.0;
+		}
+		if(angle < 0.0) {
+			speed *= -1.0;
+		}
+		setSpeed(speed, -speed);
+		return false;
+	}
+	
 	/**
 	 * Keep the robot driving straight for specified distance.
 	 * 
@@ -100,7 +115,7 @@ public class Drivebase {
 	 * 
 	 * @return True when complete.
 	 */
-
+	
 	public boolean driveStraight(double distance, double speed) {
 		brakesOff();
 		double absoluteDistance = Math.abs(distance);
@@ -111,7 +126,7 @@ public class Drivebase {
 			m_driveStep++;
 			return false;
 		} else if (m_driveStep == 1) {
-			if (absoluteDistance * (2.0 / 3.0) <= averageDistance) {
+			if (absoluteDistance * (4.0 / 5.0) <= averageDistance) {
 				m_driveStep++;
 			}
 		} else if (m_driveStep == 2) {

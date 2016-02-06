@@ -38,7 +38,6 @@ public class Robot extends IterativeRobot {
 			
 		}
 		System.out.println("Gyro: " + m_drives.getGyroAngle());
-		System.out.println("Left Encoder: " + m_drives.getLeftEncoderDistance());
 	}
 
 	public void autonomousInit() {
@@ -49,7 +48,8 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void autonomousPeriodic() {
-		m_autonController.lowBarAndScore();
+		//m_autonController.lowBarAndScore();
+		m_autonController.turn(68.5);
 	}
 
 	public void teleopInit() {
