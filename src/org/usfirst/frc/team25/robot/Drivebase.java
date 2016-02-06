@@ -1,5 +1,6 @@
 package org.usfirst.frc.team25.robot;
 
+import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Servo;
@@ -18,8 +19,9 @@ public class Drivebase {
 	private final AnalogInput m_ultrasonic;
 	private boolean m_brakesOn;
 	private int m_driveStep;
+	private final AnalogGyro m_gyro;
 
-	public Drivebase() {
+	private Drivebase() {
 		m_leftDrives = new VictorSP(Constants.LEFT_DRIVES_PWM);
 		m_rightDrives = new VictorSP(Constants.RIGHT_DRIVES_PWM);
 
@@ -34,6 +36,7 @@ public class Drivebase {
 		m_rightEncoder.setDistancePerPulse(Constants.INCHES_PER_COUNT);
 
 		m_ultrasonic = new AnalogInput(Constants.ULTRASONIC_PWM);
+		m_gyro = new AnalogGyro(Constants.GYRO_PWM);
 
 		m_driveStep = 0;
 	}
@@ -43,6 +46,10 @@ public class Drivebase {
 			m_instance = new Drivebase();
 		}
 		return m_instance;
+	}
+
+	public void resetStep() {
+		m_driveStep = 0;
 	}
 
 	public void setSpeed(double speed) {
@@ -86,32 +93,36 @@ public class Drivebase {
 	/**
 	 * Keep the robot driving straight for specified distance.
 	 * 
-	 * @param distance (in inches)
-	 * @param speed (initial speed)
+	 * @param distance
+	 *            (in inches)
+	 * @param speed
+	 *            (initial speed)
 	 * 
-	 * @return True if complete 
+	 * @return True when complete.
 	 */
+
 	public boolean driveStraight(double distance, double speed) {
 		brakesOff();
 		double absoluteDistance = Math.abs(distance);
 		double averageDistance = Math.abs(getLeftEncoderDistance() + getRightEncoderDistance()) / 2.0;
 		if (m_driveStep == 0) {
 			resetEncoders();
+			resetGyro();
 			m_driveStep++;
 			return false;
 		} else if (m_driveStep == 1) {
 			if (absoluteDistance * (2.0 / 3.0) <= averageDistance) {
 				m_driveStep++;
 			}
-		} else if (m_driveStep == 2) { // If over 2/3 distance, reduce speed to 3/4
-			if (absoluteDistance * (3.0 / 4.0) <= averageDistance) {
+		} else if (m_driveStep == 2) {
+			if (absoluteDistance * (7.0 / 8.0) <= averageDistance) {
 				m_driveStep++;
 			} else {
 				speed /= 3.5;
 			}
 		} else if (m_driveStep == 3) {
-			if (averageDistance < absoluteDistance) { // If close to the end, go to small speed
-				if(distance > 0.0) {
+			if (averageDistance < absoluteDistance) {
+				if (distance > 0.0) {
 					setSpeed(0.18, 0.1);
 				} else {
 					setSpeed(-0.1, -0.18);
@@ -123,30 +134,37 @@ public class Drivebase {
 				return true;
 			}
 		}
-		speed = Math.abs(speed) * (distance / Math.abs(distance)); // Get correct speed sign
+		speed = Math.abs(speed) * (distance / Math.abs(distance));
 		double adjustment = speed / 10.0;
 		double leftSpeed = speed + (distance < 0.0 ? adjustment : 0.0);
 		double rightSpeed = speed - (distance > 0.0 ? adjustment : 0.0);
-		double error = getLeftEncoderDistance() - getRightEncoderDistance();
-		if (distance > 0.0) { // Adjust for backwards motor controllers (Forward)
-			if (error > 0.75) {
-				leftSpeed -= 0.1;
-			} else if (error < -0.75) {
-				rightSpeed -= 0.1;
+		double error = getGyroAngle();
+		if (distance > 0.0) {
+			if (error > Constants.DRIVE_STRAIGHT_TOLERANCE) {
+				leftSpeed -= 0.12;
+			} else if (error < -Constants.DRIVE_STRAIGHT_TOLERANCE) {
+				rightSpeed -= 0.12;
 			}
 		} else {
-			if (error > 0.75) { // (Backward)
-				rightSpeed += 0.1;
-			} else if (error < -0.75) {
-				leftSpeed += 0.1;
+			if (error > Constants.DRIVE_STRAIGHT_TOLERANCE) {
+				rightSpeed += 0.12;
+			} else if (error < -Constants.DRIVE_STRAIGHT_TOLERANCE) {
+				leftSpeed += 0.12;
 			}
 		}
 		setSpeed(leftSpeed, rightSpeed);
 		return false;
 	}
-
+	
 	public int getUltrasonic() {
 		return m_ultrasonic.getValue();
 	}
-
+	
+	public void resetGyro() {
+		m_gyro.reset();
+	}
+	
+	public double getGyroAngle() {
+		return m_gyro.getAngle();
+	}
 }

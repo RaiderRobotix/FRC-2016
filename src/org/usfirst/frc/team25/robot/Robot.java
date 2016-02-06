@@ -1,43 +1,55 @@
 package org.usfirst.frc.team25.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Utility;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
 
-	private SendableChooser m_autonChooser;
 	private AutonController m_autonController;
 	private OI m_OI;
 	private Drivebase m_drives;
-	private int m_autonPicked;
+	private Pickup m_pickup;
 
 	public void robotInit() {
 		m_autonController = AutonController.getInstance();
 		m_OI = OI.getInstance();
 		m_drives = Drivebase.getInstance();
-		setupDashboard();
+		m_pickup = Pickup.getInstance();
+		m_drives.resetGyro();
 	}
 
-	private void setupDashboard() {
-		m_autonChooser = new SendableChooser();
-		m_autonChooser.addDefault("Do Nothing (default)", 0);
-		SmartDashboard.putData("Choose Auton Mode: ", m_autonChooser);
+	private void updateDashboard() {
+		SmartDashboard.putNumber("Left Encoder", Math.abs(m_drives.getLeftEncoderDistance()));
+		SmartDashboard.putNumber("Right Encoder", Math.abs(m_drives.getRightEncoderDistance()));
+		SmartDashboard.putNumber("Arm Pot", m_pickup.getPot());
+		SmartDashboard.putNumber("Ultrasonic", m_drives.getUltrasonic());
+		SmartDashboard.putNumber("Gyro", m_drives.getGyroAngle());
 	}
 
 	public void disabledInit() {
 	}
 
 	public void disabledPeriodic() {
+		updateDashboard();
+		if(Utility.getUserButton()) {
+			m_drives.resetEncoders();
+			
+		}
+		System.out.println("Gyro: " + m_drives.getGyroAngle());
+		System.out.println("Left Encoder: " + m_drives.getLeftEncoderDistance());
 	}
 
 	public void autonomousInit() {
-		m_autonPicked = (int) m_autonChooser.getSelected();
 		m_drives.brakesOff();
 		m_autonController.resetStep();
+		m_drives.resetStep();
+		m_drives.resetGyro();
 	}
 
 	public void autonomousPeriodic() {
+		m_autonController.lowBarAndScore();
 	}
 
 	public void teleopInit() {
@@ -46,11 +58,13 @@ public class Robot extends IterativeRobot {
 
 	public void teleopPeriodic() {
 		m_OI.enableTeleopControls();
+		updateDashboard();
+
+		System.out.println("Gyro: " + m_drives.getGyroAngle());
 	}
 
 	public void testInit() {
 		m_drives.brakesOff();
-		setupDashboard();
 	}
 
 	public void testPeriodic() {
