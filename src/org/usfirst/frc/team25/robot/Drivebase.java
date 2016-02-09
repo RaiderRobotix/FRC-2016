@@ -16,7 +16,6 @@ public class Drivebase {
 	private final Servo m_leftBrake;
 	private final Encoder m_leftEncoder;
 	private final Encoder m_rightEncoder;
-	private final AnalogInput m_ultrasonic;
 	private boolean m_brakesOn;
 	private int m_driveStep;
 	private final AnalogGyro m_gyro;
@@ -35,7 +34,6 @@ public class Drivebase {
 		m_leftEncoder.setDistancePerPulse(Constants.INCHES_PER_COUNT);
 		m_rightEncoder.setDistancePerPulse(Constants.INCHES_PER_COUNT);
 
-		m_ultrasonic = new AnalogInput(Constants.ULTRASONIC_PWM);
 		m_gyro = new AnalogGyro(Constants.GYRO_PWM);
 
 		m_driveStep = 0;
@@ -115,7 +113,6 @@ public class Drivebase {
 	 * 
 	 * @return True when complete.
 	 */
-	
 	public boolean driveStraight(double distance, double speed) {
 		brakesOff();
 		double absoluteDistance = Math.abs(distance);
@@ -170,11 +167,7 @@ public class Drivebase {
 		setSpeed(leftSpeed, rightSpeed);
 		return false;
 	}
-	
-	public int getUltrasonic() {
-		return m_ultrasonic.getValue();
-	}
-	
+
 	public void resetGyro() {
 		m_gyro.reset();
 	}

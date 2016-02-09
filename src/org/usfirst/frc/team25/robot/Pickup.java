@@ -1,6 +1,7 @@
 package org.usfirst.frc.team25.robot;
 
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Talon;
 
 public class Pickup {
@@ -9,11 +10,12 @@ public class Pickup {
 	private final Talon m_rollers;
 	private final Talon m_arm;
 	private final AnalogPotentiometer m_pot;
+	private final DigitalInput m_lineBreaker;
 
 	private Pickup() {
 		m_rollers = new Talon(Constants.PICKUP_ROLLERS_PWM);
 		m_arm = new Talon(Constants.PICKUP_ARM_PWM);
-
+		m_lineBreaker = new DigitalInput(Constants.PICKUP_LINE_BREAKER_PWM);
 		m_pot = new AnalogPotentiometer(Constants.PICKUP_POT_PWM);
 	}
 
@@ -25,7 +27,11 @@ public class Pickup {
 	}
 
 	public void intake() {
-		m_rollers.set(1.0);
+		if (m_lineBreaker.get()) {
+			m_rollers.set(1.0);
+		} else {
+			m_rollers.set(0.0);
+		}
 	}
 
 	public void eject() {
@@ -36,29 +42,37 @@ public class Pickup {
 		m_rollers.set(0.0);
 	}
 
+	/**
+	 * Move the pickup to a certain value via the potentiometer.
+	 * 
+	 * @param Value
+	 *            the pot value you wish to go to.
+	 * 
+	 * @return False, if complete.
+	 */
 	public boolean goTo(double value) {
 		double difference = m_pot.get() - value;
-		if(Math.abs(difference) <= 0.005) {
-			//If very close, stop
+		if (Math.abs(difference) <= 0.005) {
+			// If very close, stop
 			m_arm.set(0.0);
 			return false;
 		}
-		boolean down = difference < 0.0;
+		boolean down = difference > 0.0;
 		double slowSpeed = 0.2;
-		if(value == Constants.PICKUP_ARM_UP) {
+		if (value == Constants.PICKUP_ARM_UP) {
 			slowSpeed = 0.4;
 		}
-		if(Math.abs(difference) <= slowSpeed) {
-			//Slow down if in close zone
-			m_arm.set(down ? 0.5 : -0.5);
+		if (Math.abs(difference) <= slowSpeed) {
+			// Slow down if in close zone
+			setArmSpeed((down ? 0.5 : -0.5), false);
 		} else {
-			m_arm.set(down ? 1.0 : -1.0);
+			setArmSpeed((down ? 1.0 : -1.0), false);
 		}
 		return true;
 	}
-	
+
 	public void setArmSpeed(double speed, boolean override) {
-		if(override) {
+		if (override) {
 			m_arm.set(speed / 3.0);
 			return;
 		}

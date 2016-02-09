@@ -1,6 +1,7 @@
 package org.usfirst.frc.team25.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 
 public class OI {
 
@@ -10,15 +11,20 @@ public class OI {
 	private final Joystick m_rightStick;
 	private final Joystick m_leftStick;
 	private final Joystick m_operatorStick;
+	private final PowerDistributionPanel m_pdp;
 	private boolean m_pickupSequenceRunning;
 	private double m_pickupSequenceValue;
 
 	private OI() {
 		m_drives = Drivebase.getInstance();
 		m_pickup = Pickup.getInstance();
+		
 		m_rightStick = new Joystick(Constants.RIGHT_JOYSTICK_PORT);
 		m_leftStick = new Joystick(Constants.LEFT_JOYSTICK_PORT);
 		m_operatorStick = new Joystick(Constants.OPERATOR_JOYSTICK_PORT);
+		
+		m_pdp = new PowerDistributionPanel();
+		
 		m_pickupSequenceRunning = false;
 	}
 
@@ -64,14 +70,18 @@ public class OI {
 			m_pickupSequenceValue = Constants.PICKUP_PORT_CULLIS;
 		}
 
-		if (getOperatorButton(4) || getOperatorButton(11)) {
+		if (m_pdp.getCurrent(Constants.PICKUP_PDP_PORT) >= Constants.PICKUP_CURRENT_LIMIT) {
+			m_pickupSequenceRunning = false;
+			m_pickup.setArmSpeed(0.0, true);
+		} else if (getOperatorButton(4) || getOperatorButton(11)) {
+			// Run normally
 			m_pickupSequenceRunning = false;
 			m_pickup.setArmSpeed(getOperatorY(), getOperatorButton(11));
 		} else if(!m_pickupSequenceRunning) {
+			// If let go of button, return to 0%
 			m_pickup.setArmSpeed(0.0, true);
-		}
-
-		if (m_pickupSequenceRunning) {
+		} else {
+			// Pickup Sequence Running
 			m_pickupSequenceRunning = m_pickup.goTo(m_pickupSequenceValue);
 		}
 	}

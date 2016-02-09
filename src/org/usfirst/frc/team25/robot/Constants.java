@@ -3,7 +3,9 @@ package org.usfirst.frc.team25.robot;
 public abstract class Constants {
 
 	public static final double DRIVE_STRAIGHT_TOLERANCE = 1.0; // (In Degrees)
-	
+	public static final int PICKUP_PDP_PORT = 13;
+	public static final double PICKUP_CURRENT_LIMIT = 10.0;
+
 	// PWMs (Control)
 	public static final int PICKUP_ROLLERS_PWM = 5;
 	public static final int PICKUP_ARM_PWM = 6;
@@ -19,6 +21,7 @@ public abstract class Constants {
 	public static final double RIGHT_BRAKES_OFF = 0.35;
 
 	// Digital Sensors
+	public static final int PICKUP_LINE_BREAKER_PWM = 4; // TODO: Fix
 	public static final int LEFT_ENCODER_PWM_A = 9;
 	public static final int LEFT_ENCODER_PWM_B = 2;
 	public static final int RIGHT_ENCODER_PWM_A = 6;
@@ -40,8 +43,8 @@ public abstract class Constants {
 	public static final double DEADBAND = 0.2;
 
 	// Pickup Positions
-	public static final double PICKUP_ARM_UP = 0.5088;
-	public static final double PICKUP_ARM_DOWN = 0.3945;
-	public static final double PICKUP_PORT_CULLIS = 0.4057;
+	public static final double PICKUP_ARM_UP = 0.6181;
+	public static final double PICKUP_ARM_DOWN = 0.5127;
+	public static final double PICKUP_PORT_CULLIS = PICKUP_ARM_DOWN + 0.04; //TODO: Fix
 
 }
