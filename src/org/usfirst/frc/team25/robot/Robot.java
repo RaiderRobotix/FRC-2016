@@ -53,7 +53,7 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void autonomousPeriodic() {
-		// m_autonController.lowBarAndScore();
+		m_autonController.lowBarAndScore();
 		// m_autonController.turn(68.5);
 	}
 
@@ -64,6 +64,7 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		m_OI.enableTeleopControls();
 		updateDashboard();
+		printStats();
 	}
 
 	public void testInit() {

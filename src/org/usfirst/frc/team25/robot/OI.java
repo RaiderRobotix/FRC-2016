@@ -36,6 +36,12 @@ public class OI {
 	}
 
 	public void enableTeleopControls() {
+		
+		if(getRightButton(7)) {
+			m_drives.resetEncoders();
+			m_drives.resetGyro();
+		}
+		
 		// =========== DRIVES ===========
 		if (getLeftTrigger()) {
 			m_drives.brakesOn();
@@ -50,9 +56,9 @@ public class OI {
 		}
 		
 		// =========== PICKUP ROLLERS ===========
-		if (getOperatorTrigger()) {
+		if (getRightTrigger()) {
 			m_pickup.intake();
-		} else if (getOperatorButton(2)) {
+		} else if (getRightButton(2)) {
 			m_pickup.eject();
 		} else {
 			m_pickup.stopRollers();
@@ -69,7 +75,7 @@ public class OI {
 			m_pickupSequenceRunning = true;
 			m_pickupSequenceValue = Constants.PICKUP_PORT_CULLIS;
 		}
-
+		
 		if (m_pdp.getCurrent(Constants.PICKUP_PDP_PORT) >= Constants.PICKUP_CURRENT_LIMIT) {
 			m_pickupSequenceRunning = false;
 			m_pickup.setArmSpeed(0.0, true);
@@ -112,6 +118,14 @@ public class OI {
 		return m_leftStick.getRawButton(b);
 	}
 
+	private boolean getRightTrigger() {
+		return m_rightStick.getTrigger();
+	}
+	
+	private boolean getRightButton(int b) {
+		return m_rightStick.getRawButton(b);
+	}
+	
 	private double getOperatorY() {
 		double yval = m_operatorStick.getY();
 		if (Math.abs(yval) < Constants.DEADBAND) {

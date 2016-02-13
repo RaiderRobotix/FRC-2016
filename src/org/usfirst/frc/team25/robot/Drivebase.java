@@ -94,7 +94,7 @@ public class Drivebase {
 			setSpeed(0.0);
 			return true;
 		} else if(Math.abs(getGyroAngle() - angle) <= 30.0) {
-			speed /= 3.0;
+			speed /= 2.0;
 		}
 		if(angle < 0.0) {
 			speed *= -1.0;
@@ -116,7 +116,7 @@ public class Drivebase {
 	public boolean driveStraight(double distance, double speed) {
 		brakesOff();
 		double absoluteDistance = Math.abs(distance);
-		double averageDistance = Math.abs(getLeftEncoderDistance() + getRightEncoderDistance()) / 2.0;
+		double averageDistance = Math.abs(getLeftEncoderDistance()); // Only using one encoder
 		if (m_driveStep == 0) {
 			resetEncoders();
 			resetGyro();

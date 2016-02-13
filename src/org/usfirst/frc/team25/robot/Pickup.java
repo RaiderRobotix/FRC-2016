@@ -52,15 +52,15 @@ public class Pickup {
 	 */
 	public boolean goTo(double value) {
 		double difference = m_pot.get() - value;
-		if (Math.abs(difference) <= 0.005) {
+		if (Math.abs(difference) <= 0.0005) {
 			// If very close, stop
 			m_arm.set(0.0);
 			return false;
 		}
 		boolean down = difference > 0.0;
-		double slowSpeed = 0.2;
+		double slowSpeed = 0.02;
 		if (value == Constants.PICKUP_ARM_UP) {
-			slowSpeed = 0.4;
+			slowSpeed = 0.04;
 		}
 		if (Math.abs(difference) <= slowSpeed) {
 			// Slow down if in close zone
