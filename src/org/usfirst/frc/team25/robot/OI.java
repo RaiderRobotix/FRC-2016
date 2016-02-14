@@ -18,13 +18,13 @@ public class OI {
 	private OI() {
 		m_drives = Drivebase.getInstance();
 		m_pickup = Pickup.getInstance();
-		
+
 		m_rightStick = new Joystick(Constants.RIGHT_JOYSTICK_PORT);
 		m_leftStick = new Joystick(Constants.LEFT_JOYSTICK_PORT);
 		m_operatorStick = new Joystick(Constants.OPERATOR_JOYSTICK_PORT);
-		
+
 		m_pdp = new PowerDistributionPanel();
-		
+
 		m_pickupSequenceRunning = false;
 	}
 
@@ -36,12 +36,13 @@ public class OI {
 	}
 
 	public void enableTeleopControls() {
-		
-		if(getRightButton(7)) {
+
+		// =========== RESET ===========
+		if (getRightButton(7)) {
 			m_drives.resetEncoders();
 			m_drives.resetGyro();
 		}
-		
+
 		// =========== DRIVES ===========
 		if (getLeftTrigger()) {
 			m_drives.brakesOn();
@@ -56,9 +57,9 @@ public class OI {
 		}
 		
 		// =========== PICKUP ROLLERS ===========
-		if (getRightTrigger()) {
+		if (getOperatorTrigger()) {
 			m_pickup.intake();
-		} else if (getRightButton(2)) {
+		} else if (getRightTrigger() || getOperatorButton(2)) {
 			m_pickup.eject();
 		} else {
 			m_pickup.stopRollers();
@@ -71,11 +72,11 @@ public class OI {
 		} else if (getOperatorButton(10) && !getOperatorButton(7) && !getOperatorButton(8)) {
 			m_pickupSequenceRunning = true;
 			m_pickupSequenceValue = Constants.PICKUP_ARM_DOWN;
-		} else if(getOperatorButton(8) && !getOperatorButton(7) && ! getOperatorButton(10)) {
+		} else if (getOperatorButton(8) && !getOperatorButton(7) && !getOperatorButton(10)) {
 			m_pickupSequenceRunning = true;
 			m_pickupSequenceValue = Constants.PICKUP_PORT_CULLIS;
 		}
-		
+
 		if (m_pdp.getCurrent(Constants.PICKUP_PDP_PORT) >= Constants.PICKUP_CURRENT_LIMIT) {
 			m_pickupSequenceRunning = false;
 			m_pickup.setArmSpeed(0.0, true);
@@ -83,7 +84,7 @@ public class OI {
 			// Run normally
 			m_pickupSequenceRunning = false;
 			m_pickup.setArmSpeed(getOperatorY(), getOperatorButton(11));
-		} else if(!m_pickupSequenceRunning) {
+		} else if (!m_pickupSequenceRunning) {
 			// If let go of button, return to 0%
 			m_pickup.setArmSpeed(0.0, true);
 		} else {
@@ -121,11 +122,11 @@ public class OI {
 	private boolean getRightTrigger() {
 		return m_rightStick.getTrigger();
 	}
-	
+
 	private boolean getRightButton(int b) {
 		return m_rightStick.getRawButton(b);
 	}
-	
+
 	private double getOperatorY() {
 		double yval = m_operatorStick.getY();
 		if (Math.abs(yval) < Constants.DEADBAND) {

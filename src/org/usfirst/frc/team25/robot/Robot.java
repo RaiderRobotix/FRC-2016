@@ -2,6 +2,7 @@ package org.usfirst.frc.team25.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Utility;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
@@ -10,6 +11,8 @@ public class Robot extends IterativeRobot {
 	private OI m_OI;
 	private Drivebase m_drives;
 	private Pickup m_pickup;
+	private SendableChooser m_obstacleChooser;
+	private SendableChooser m_slotChooser;
 
 	public void robotInit() {
 		m_autonController = AutonController.getInstance();
@@ -17,6 +20,14 @@ public class Robot extends IterativeRobot {
 		m_drives = Drivebase.getInstance();
 		m_pickup = Pickup.getInstance();
 		m_drives.resetGyro();
+		m_obstacleChooser = new SendableChooser();
+		m_obstacleChooser.addObject("Low Bar", 1);
+		m_obstacleChooser.addObject("Rough Terrain", 2);
+		m_slotChooser = new SendableChooser();
+		m_slotChooser.addObject("Slot 1", 1);
+		m_slotChooser.addObject("Slot 2", 2);
+		SmartDashboard.putData("Choose Obstacle", m_obstacleChooser);
+		SmartDashboard.putData("Choose Slot", m_slotChooser);
 	}
 
 	private void updateDashboard() {
@@ -24,6 +35,10 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("Right Encoder", Math.abs(m_drives.getRightEncoderDistance()));
 		SmartDashboard.putNumber("Arm Pot", m_pickup.getPot());
 		SmartDashboard.putNumber("Gyro", m_drives.getGyroAngle());
+		if (Utility.getUserButton()) {
+			SmartDashboard.putData("Choose Obstacle", m_obstacleChooser);
+			SmartDashboard.putData("Choose Slot", m_slotChooser);
+		}
 	}
 
 	private void printStats() {
@@ -39,10 +54,6 @@ public class Robot extends IterativeRobot {
 	public void disabledPeriodic() {
 		printStats();
 		updateDashboard();
-		if (Utility.getUserButton()) {
-			m_drives.resetEncoders();
-
-		}
 	}
 
 	public void autonomousInit() {
@@ -53,8 +64,9 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void autonomousPeriodic() {
-		m_autonController.lowBarAndScore();
+		 m_autonController.lowBarAndScore();
 		// m_autonController.turn(68.5);
+		//m_autonController.slotTwoTerrain();
 	}
 
 	public void teleopInit() {

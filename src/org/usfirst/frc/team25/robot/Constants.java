@@ -18,7 +18,7 @@ public abstract class Constants {
 	public static final double LEFT_BRAKES_ON = 0.42;
 	public static final double LEFT_BRAKES_OFF = 0.57;
 	public static final double RIGHT_BRAKES_ON = 0.55;
-	public static final double RIGHT_BRAKES_OFF = 0.35;
+	public static final double RIGHT_BRAKES_OFF = 0.34;
 
 	// Digital Sensors
 	public static final int PICKUP_LINE_BREAKER_PWM = 0; // TODO: Fix

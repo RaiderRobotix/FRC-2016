@@ -127,7 +127,7 @@ public class Drivebase {
 				m_driveStep++;
 			}
 		} else if (m_driveStep == 2) {
-			if (absoluteDistance * (7.0 / 8.0) <= averageDistance) {
+			if (absoluteDistance * (14.0 / 15.0) <= averageDistance) {
 				m_driveStep++;
 			} else {
 				speed /= 3.5;
