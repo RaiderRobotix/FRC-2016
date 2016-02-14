@@ -90,13 +90,15 @@ public class Drivebase {
 
 	public boolean turnToAngle(double angle, double speed) {
 		brakesOff();
-		if(Math.abs(getGyroAngle() - angle) <= Constants.DRIVE_STRAIGHT_TOLERANCE) {
+		double error = getGyroAngle() - angle;
+		if(Math.abs(error) <= Constants.DRIVE_STRAIGHT_TOLERANCE) {
 			setSpeed(0.0);
 			return true;
-		} else if(Math.abs(getGyroAngle() - angle) <= 30.0) {
+		}
+		if(Math.abs(error) <= 30.0) {
 			speed /= 2.0;
 		}
-		if(angle < 0.0) {
+		if(error > 0.0) {
 			speed *= -1.0;
 		}
 		setSpeed(speed, -speed);

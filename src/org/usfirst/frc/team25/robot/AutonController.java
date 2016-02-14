@@ -52,20 +52,20 @@ public class AutonController {
 				m_step++;
 			}
 		} else if (m_step == 2) {
-			if (m_drives.driveStraight(230.0, 0.5)) {
+			if (m_drives.driveStraight(227.0, 0.5)) {
 				m_drives.setSpeed(0.0);
 				m_drives.resetGyro();
 				m_step++;
 			}
 		} else if (m_step == 3) {
-			if (m_drives.turnToAngle(63, 0.5)) {
+			if (m_drives.turnToAngle(64, 0.5)) {
 				m_drives.setSpeed(0.0);
 				m_drives.resetEncoders();
 				m_drives.resetGyro();
 				m_step++;
 			}
 		} else if (m_step == 4) {
-			if (m_drives.driveStraight(70.0, 0.5)) {
+			if (m_drives.driveStraight(73.0, 0.5)) {
 				m_drives.setSpeed(0.0);
 				m_pickup.eject();
 				m_step++;
