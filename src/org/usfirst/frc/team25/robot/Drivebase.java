@@ -89,6 +89,7 @@ public class Drivebase {
 	}
 
 	public boolean turnToAngle(double angle, double speed) {
+		System.out.println("Gyro: " + m_gyro.getAngle());
 		brakesOff();
 		double error = getGyroAngle() - angle;
 		if(Math.abs(error) <= Constants.DRIVE_STRAIGHT_TOLERANCE) {
@@ -96,7 +97,7 @@ public class Drivebase {
 			return true;
 		}
 		if(Math.abs(error) <= 30.0) {
-			speed /= 2.0;
+			speed /= 1.5;
 		}
 		if(error > 0.0) {
 			speed *= -1.0;

@@ -44,6 +44,9 @@ public abstract class Constants {
 	// Pickup Positions
 	public static final double PICKUP_ARM_UP = 0.8649;
 	public static final double PICKUP_ARM_DOWN = 0.733;
-	public static final double PICKUP_PORT_CULLIS = PICKUP_ARM_DOWN + 0.04; //TODO: Fix
+	public static final double PICKUP_PORT_CULLIS = 0.7345; //TODO: Fix
+	public static final double PICKUP_PORT_CULLIS_HIGH = 0.8241;
+	
+	public static final double PICKUP_RAMPS = 0.7385;
 
 }

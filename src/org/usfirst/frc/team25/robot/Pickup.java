@@ -58,11 +58,11 @@ public class Pickup {
 			return false;
 		}
 		boolean down = difference > 0.0;
-		double slowSpeed = 0.02;
+		double slowSpeedRange = 0.02;
 		if (value == Constants.PICKUP_ARM_UP) {
-			slowSpeed = 0.04;
+			slowSpeedRange = 0.04;
 		}
-		if (Math.abs(difference) <= slowSpeed) {
+		if (Math.abs(difference) <= slowSpeedRange) {
 			// Slow down if in close zone
 			setArmSpeed((down ? 0.5 : -0.5), false);
 		} else {

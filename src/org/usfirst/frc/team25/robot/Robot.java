@@ -64,9 +64,11 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void autonomousPeriodic() {
-		 m_autonController.lowBarAndScore();
+		// m_autonController.lowBarAndScore();
 		// m_autonController.turn(68.5);
 		//m_autonController.slotTwoTerrain();
+		//m_autonController.teeterTotter();
+		m_autonController.iPickThingsUpAndPutThemDownIn();
 	}
 
 	public void teleopInit() {
