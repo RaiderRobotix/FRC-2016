@@ -8,6 +8,7 @@ public class OI {
 	private static OI m_instance;
 	private final Pickup m_pickup;
 	private final Drivebase m_drives;
+	private final Hanger m_hanger;
 	private final Joystick m_rightStick;
 	private final Joystick m_leftStick;
 	private final Joystick m_operatorStick;
@@ -18,6 +19,7 @@ public class OI {
 	private OI() {
 		m_drives = Drivebase.getInstance();
 		m_pickup = Pickup.getInstance();
+		m_hanger = Hanger.getInstance();
 
 		m_rightStick = new Joystick(Constants.RIGHT_JOYSTICK_PORT);
 		m_leftStick = new Joystick(Constants.LEFT_JOYSTICK_PORT);
@@ -36,13 +38,6 @@ public class OI {
 	}
 
 	public void enableTeleopControls() {
-
-		// =========== RESET ===========
-		if (getRightButton(7)) {
-			m_drives.resetEncoders();
-			m_drives.resetGyro();
-		}
-
 		// =========== DRIVES ===========
 		if (getLeftTrigger()) {
 			m_drives.brakesOn();
@@ -55,7 +50,7 @@ public class OI {
 		} else {
 			m_drives.setSpeed(0.0);
 		}
-		
+
 		// =========== PICKUP ROLLERS ===========
 		if (getOperatorTrigger()) {
 			m_pickup.intake();
@@ -66,13 +61,13 @@ public class OI {
 		}
 
 		// =========== PICKUP ARM ===========
-		if (getOperatorButton(7) && !getOperatorButton(10) && !getOperatorButton(8)) {
+		if (getOperatorButton(6) && !getOperatorButton(4) && !getOperatorButton(5)) {
 			m_pickupSequenceRunning = true;
 			m_pickupSequenceValue = Constants.PICKUP_ARM_UP;
-		} else if (getOperatorButton(10) && !getOperatorButton(7) && !getOperatorButton(8)) {
+		} else if (getOperatorButton(4) && !getOperatorButton(6) && !getOperatorButton(5)) {
 			m_pickupSequenceRunning = true;
 			m_pickupSequenceValue = Constants.PICKUP_ARM_DOWN;
-		} else if (getOperatorButton(8) && !getOperatorButton(7) && !getOperatorButton(10)) {
+		} else if (getOperatorButton(5) && !getOperatorButton(6) && !getOperatorButton(4)) {
 			m_pickupSequenceRunning = true;
 			m_pickupSequenceValue = Constants.PICKUP_PORT_CULLIS;
 		}
@@ -80,7 +75,7 @@ public class OI {
 		if (m_pdp.getCurrent(Constants.PICKUP_PDP_PORT) >= Constants.PICKUP_CURRENT_LIMIT) {
 			m_pickupSequenceRunning = false;
 			m_pickup.setArmSpeed(0.0, true);
-		} else if (getOperatorButton(4) || getOperatorButton(11)) {
+		} else if (getOperatorButton(3) || getOperatorButton(11)) {
 			// Run normally
 			m_pickupSequenceRunning = false;
 			m_pickup.setArmSpeed(getOperatorY(), getOperatorButton(11));
@@ -90,6 +85,15 @@ public class OI {
 		} else {
 			// Pickup Sequence Running
 			m_pickupSequenceRunning = m_pickup.goTo(m_pickupSequenceValue);
+		}
+
+		// =========== HANGER =========== TODO: mix pickup and hanger logic
+		if (getOperatorButton(8)) {
+			m_hanger.setSpeed(1.0);
+		} else if (getOperatorButton(12)) {
+			m_hanger.setSpeed(-1.0);
+		} else {
+			m_hanger.setSpeed(0.0);
 		}
 	}
 
@@ -143,5 +147,4 @@ public class OI {
 	private boolean getOperatorButton(int b) {
 		return m_operatorStick.getRawButton(b);
 	}
-
 }

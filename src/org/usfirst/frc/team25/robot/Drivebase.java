@@ -1,7 +1,6 @@
 package org.usfirst.frc.team25.robot;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
-import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.VictorSP;
@@ -92,20 +91,20 @@ public class Drivebase {
 		System.out.println("Gyro: " + m_gyro.getAngle());
 		brakesOff();
 		double error = getGyroAngle() - angle;
-		if(Math.abs(error) <= Constants.DRIVE_STRAIGHT_TOLERANCE) {
+		if (Math.abs(error) <= Constants.DRIVE_STRAIGHT_TOLERANCE) {
 			setSpeed(0.0);
 			return true;
 		}
-		if(Math.abs(error) <= 30.0) {
+		if (Math.abs(error) <= 30.0) {
 			speed /= 1.5;
 		}
-		if(error > 0.0) {
+		if (error > 0.0) {
 			speed *= -1.0;
 		}
 		setSpeed(speed, -speed);
 		return false;
 	}
-	
+
 	/**
 	 * Keep the robot driving straight for specified distance.
 	 * 
@@ -119,7 +118,10 @@ public class Drivebase {
 	public boolean driveStraight(double distance, double speed) {
 		brakesOff();
 		double absoluteDistance = Math.abs(distance);
-		double averageDistance = Math.abs(getLeftEncoderDistance()); // Only using one encoder
+		double averageDistance = Math.abs(getLeftEncoderDistance()); // Only
+																		// using
+																		// one
+																		// encoder
 		if (m_driveStep == 0) {
 			resetEncoders();
 			resetGyro();
@@ -174,7 +176,7 @@ public class Drivebase {
 	public void resetGyro() {
 		m_gyro.reset();
 	}
-	
+
 	public double getGyroAngle() {
 		return m_gyro.getAngle();
 	}

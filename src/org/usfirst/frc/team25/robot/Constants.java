@@ -2,8 +2,9 @@ package org.usfirst.frc.team25.robot;
 
 public abstract class Constants {
 
+	// Assorted Constants
 	public static final double DRIVE_STRAIGHT_TOLERANCE = 1.0; // (In Degrees)
-	public static final int PICKUP_PDP_PORT = 13;
+	public static final int PICKUP_PDP_PORT = 13; // Arm
 	public static final double PICKUP_CURRENT_LIMIT = 35.0;
 
 	// PWMs (Control)
@@ -13,6 +14,7 @@ public abstract class Constants {
 	public static final int RIGHT_DRIVES_PWM = 0;
 	public static final int LEFT_BRAKE_PWM = 9;
 	public static final int RIGHT_BRAKE_PWM = 1;
+	public static final int HANGER_WINCH_PWM = 7; // TODO: Fix
 
 	// Brake Positions
 	public static final double LEFT_BRAKES_ON = 0.42;
@@ -21,13 +23,13 @@ public abstract class Constants {
 	public static final double RIGHT_BRAKES_OFF = 0.34;
 
 	// Digital Sensors
-	public static final int PICKUP_LINE_BREAKER_PWM = 0; // TODO: Fix
+	public static final int PICKUP_LINE_BREAKER_PWM = 0;
 	public static final int LEFT_ENCODER_PWM_A = 9;
 	public static final int LEFT_ENCODER_PWM_B = 4;
 	public static final int RIGHT_ENCODER_PWM_A = 6;
 	public static final int RIGHT_ENCODER_PWM_B = 7;
 
-	private static final double TIRE_CIRCUMFERENCE = 28.117254;
+	private static final double TIRE_CIRCUMFERENCE = 28.117254; // In inches
 	private static final double COUNTS_PER_REVOLUTION = 85.75;
 	public static final double INCHES_PER_COUNT = TIRE_CIRCUMFERENCE / COUNTS_PER_REVOLUTION;
 
@@ -42,11 +44,9 @@ public abstract class Constants {
 	public static final double DEADBAND = 0.2;
 
 	// Pickup Positions
-	public static final double PICKUP_ARM_UP = 0.8649;
-	public static final double PICKUP_ARM_DOWN = 0.733;
-	public static final double PICKUP_PORT_CULLIS = 0.7345; //TODO: Fix
-	public static final double PICKUP_PORT_CULLIS_HIGH = 0.8241;
-	
-	public static final double PICKUP_RAMPS = 0.7385;
-
+	public static final double PICKUP_BACK_LIMIT = 0.9348;
+	public static final double PICKUP_ARM_UP = 0.9289;
+	public static final double PICKUP_ARM_DOWN = 0.7722;
+	public static final double PICKUP_PORT_CULLIS = 0.7759;
+	public static final double PICKUP_PORT_CULLIS_HIGH = 0.9002;
 }

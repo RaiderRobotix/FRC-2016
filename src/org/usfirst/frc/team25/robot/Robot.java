@@ -11,49 +11,48 @@ public class Robot extends IterativeRobot {
 	private OI m_OI;
 	private Drivebase m_drives;
 	private Pickup m_pickup;
-	private SendableChooser m_obstacleChooser;
-	private SendableChooser m_slotChooser;
+	private SendableChooser m_autonChooser;
+	private int m_autonChosen;
 
 	public void robotInit() {
+		// ===== ROBOT MECHANISMS =====
 		m_autonController = AutonController.getInstance();
 		m_OI = OI.getInstance();
 		m_drives = Drivebase.getInstance();
 		m_pickup = Pickup.getInstance();
+
+		// ===== RESETS =====
 		m_drives.resetGyro();
-		m_obstacleChooser = new SendableChooser();
-		m_obstacleChooser.addObject("Low Bar", 1);
-		m_obstacleChooser.addObject("Rough Terrain", 2);
-		m_slotChooser = new SendableChooser();
-		m_slotChooser.addObject("Slot 1", 1);
-		m_slotChooser.addObject("Slot 2", 2);
-		SmartDashboard.putData("Choose Obstacle", m_obstacleChooser);
-		SmartDashboard.putData("Choose Slot", m_slotChooser);
+		m_drives.resetEncoders();
+
+		// ===== AUTON STUFF =====
+		m_autonChooser = new SendableChooser();
+		m_autonChooser.addObject("0: Do Nothing (Default)", 0);
+		m_autonChooser.addObject("1: Low Bar And Score", 1);
+		m_autonChooser.addObject("2: Slot 2 Port Cullis and Score", 2);
+		m_autonChooser.addObject("3: General Cross Obstacle (Not Added Yet)", 3);
+		SmartDashboard.putData("Auton Key", m_autonChooser);
+		SmartDashboard.putNumber("Choose Auton", 0);
 	}
 
-	private void updateDashboard() {
-		SmartDashboard.putNumber("Left Encoder", Math.abs(m_drives.getLeftEncoderDistance()));
-		SmartDashboard.putNumber("Right Encoder", Math.abs(m_drives.getRightEncoderDistance()));
-		SmartDashboard.putNumber("Arm Pot", m_pickup.getPot());
-		SmartDashboard.putNumber("Gyro", m_drives.getGyroAngle());
-		if (Utility.getUserButton()) {
-			SmartDashboard.putData("Choose Obstacle", m_obstacleChooser);
-			SmartDashboard.putData("Choose Slot", m_slotChooser);
-		}
-	}
-
-	private void printStats() {
+	private void update() {
 		System.out.println("Left Encoder: " + m_drives.getLeftEncoderDistance());
 		System.out.println("Right Encoder: " + m_drives.getRightEncoderDistance());
 		System.out.println("Pickup Pot: " + m_pickup.getPot());
 		System.out.println("Gyro: " + m_drives.getGyroAngle());
+		System.out.println("Auton Chosen: " + SmartDashboard.getNumber("Choose Auton"));
+		if (Utility.getUserButton()) {
+			// RoboRIO User Button
+			SmartDashboard.putData("Auton Key", m_autonChooser);
+			SmartDashboard.putNumber("Choose Auton", 0);
+		}
 	}
 
 	public void disabledInit() {
 	}
 
 	public void disabledPeriodic() {
-		printStats();
-		updateDashboard();
+		update();
 	}
 
 	public void autonomousInit() {
@@ -61,14 +60,15 @@ public class Robot extends IterativeRobot {
 		m_autonController.resetStep();
 		m_drives.resetStep();
 		m_drives.resetGyro();
+		m_autonChosen = (int) SmartDashboard.getNumber("Choose Auton");
 	}
 
 	public void autonomousPeriodic() {
-		// m_autonController.lowBarAndScore();
-		// m_autonController.turn(68.5);
-		//m_autonController.slotTwoTerrain();
-		//m_autonController.teeterTotter();
-		m_autonController.iPickThingsUpAndPutThemDownIn();
+		if (m_autonChosen == 1) {
+			m_autonController.lowBarAndScore();
+		} else if (m_autonChosen == 2) {
+			m_autonController.portCullisSlowTwoAndScore();
+		}
 	}
 
 	public void teleopInit() {
@@ -77,8 +77,7 @@ public class Robot extends IterativeRobot {
 
 	public void teleopPeriodic() {
 		m_OI.enableTeleopControls();
-		updateDashboard();
-		printStats();
+		update();
 	}
 
 	public void testInit() {

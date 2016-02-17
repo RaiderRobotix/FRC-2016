@@ -58,29 +58,32 @@ public class Pickup {
 			return false;
 		}
 		boolean down = difference > 0.0;
-		double slowSpeedRange = 0.02;
-		if (value == Constants.PICKUP_ARM_UP) {
-			slowSpeedRange = 0.04;
-		}
+		double slowSpeedRange = 0.025;
 		if (Math.abs(difference) <= slowSpeedRange) {
 			// Slow down if in close zone
-			setArmSpeed((down ? 0.5 : -0.5), false);
+			setArmSpeed((down ? 0.25 : -0.25), false);
 		} else {
 			setArmSpeed((down ? 1.0 : -1.0), false);
 		}
 		return true;
 	}
 
+	/**
+	 * Set speed for the pickup using the potentiometer.
+	 * 
+	 * @param speed The speed to run the arm
+	 * @param override If true, arm can override pot, but slowly.
+	 */
 	public void setArmSpeed(double speed, boolean override) {
 		if (override) {
 			m_arm.set(speed / 3.0);
 			return;
 		}
 		if ((m_pot.get() <= Constants.PICKUP_ARM_DOWN && speed > 0.0)
-				|| (m_pot.get() >= Constants.PICKUP_ARM_UP && speed < 0.0)) {
+				|| (m_pot.get() >= Constants.PICKUP_BACK_LIMIT && speed < 0.0)) {
 			m_arm.set(0.0);
 		} else {
-			if ((m_pot.get() > Constants.PICKUP_ARM_UP - 0.04 && speed < 0.0)
+			if ((m_pot.get() > Constants.PICKUP_BACK_LIMIT - 0.04 && speed < 0.0)
 					|| (m_pot.get() < Constants.PICKUP_ARM_DOWN + 0.02 && speed > 0.0)) {
 				m_arm.set(speed / 2.0);
 			} else {
