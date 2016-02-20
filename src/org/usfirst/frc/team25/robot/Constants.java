@@ -6,6 +6,7 @@ public abstract class Constants {
 	public static final double DRIVE_STRAIGHT_TOLERANCE = 1.0; // (In Degrees)
 	public static final int PICKUP_PDP_PORT = 13; // Arm
 	public static final double PICKUP_CURRENT_LIMIT = 35.0;
+	public static final double GYRO_SENSITIVITY = 0.007;
 
 	// PWMs (Control)
 	public static final int PICKUP_ROLLERS_PWM = 5;
@@ -46,13 +47,12 @@ public abstract class Constants {
 	// Relays
 	public static final int GREEN_SPIKE_PWM = 0; // TODO: Fix both of these.
 	public static final int RED_BLUE_SPIKE_PWM = 0;
-	
+
 	// Pickup Positions
 	public static final double PICKUP_BACK_LIMIT = 0.9348;
 	public static final double PICKUP_ARM_UP = 0.9289;
 	public static final double PICKUP_ARM_DOWN = 0.7722;
 	public static final double PICKUP_PORT_CULLIS = 0.7759;
 	public static final double PICKUP_PORT_CULLIS_HIGH = 0.9002;
-	public static final double PICKUP_RAMPS_HEIGHT = 0.7795;
+	public static final double PICKUP_RAMPS_HEIGHT = 0.7758;
 }
-

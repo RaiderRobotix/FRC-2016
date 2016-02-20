@@ -25,7 +25,7 @@ public class AutonController {
 	}
 
 	/**
-	 * Garage Door- Slot 2
+	 * Garage Door- Slot 2 & Score
 	 */
 	public void portCullisSlowTwoAndScore() {
 		if (m_step == 0) {
@@ -59,7 +59,7 @@ public class AutonController {
 				m_step++;
 			}
 		} else if (m_step == 5) {
-			if (m_drives.turnToAngle(63, 0.5)) {
+			if (m_drives.turnToAngle(63.0, 0.5)) {
 				m_drives.setSpeed(0.0);
 				m_step++;
 			}
@@ -82,7 +82,68 @@ public class AutonController {
 			m_pickup.setArmSpeed(0.0, true);
 		}
 	}
-	
+
+	/**
+	 * Teeter Totter- Slot 2 & Score
+	 */
+	public void teeterTotterSlotTwoAndScore() {
+		if (m_step == 0) {
+			m_drives.resetEncoders();
+			m_drives.resetGyro();
+			m_drives.brakesOff();
+			m_step++;
+		} else if (m_step == 1) {
+			if (m_drives.driveStraight(47.0, 0.5)) {
+				m_drives.setSpeed(0.0);
+				m_step++;
+			}
+		} else if (m_step == 2) {
+			if(m_pickup.getPot() <= 0.79) {
+				m_drives.setSpeed(-0.1, -0.18);
+			}
+			if (!m_pickup.goTo(Constants.PICKUP_RAMPS_HEIGHT, 0.5)) {
+				m_pickup.setArmSpeed(0.0, true);
+				m_drives.resetGyro();
+				m_drives.resetEncoders();
+				m_step++;
+			}
+		} else if (m_step == 3) {
+			if (m_drives.getLeftEncoderDistance() > 30.0 && m_drives.getLeftEncoderDistance() < 50.0) {
+				m_pickup.goTo(Constants.PICKUP_PORT_CULLIS_HIGH, 1.0);
+			} else {
+				m_pickup.setArmSpeed(0.0, true);
+			}
+			if (m_drives.driveStraight(210.0, 0.5)) {
+				m_drives.setSpeed(0.0);
+				m_pickup.setArmSpeed(0.0, true);
+				m_drives.resetGyro();
+				m_step++;
+			}
+		} else if (m_step == 4) {
+			if (m_drives.turnToAngle(63, 0.5)) {
+				m_drives.resetEncoders();
+				m_drives.resetGyro();
+				m_drives.setSpeed(0.0);
+				m_step++;
+			}
+		} else if (m_step == 5) {
+			if (!m_pickup.goTo(Constants.PICKUP_ARM_DOWN, 1.0)) {
+				m_pickup.setArmSpeed(0.0, true);
+				m_step += 2;
+			}
+		} else if (m_step == 6) {
+			if (m_drives.driveStraight(18.0, 0.5)) {
+				m_drives.setSpeed(0.0);
+				m_drives.brakesOn();
+				m_step++;
+			}
+		} else {
+			m_pickup.eject();
+			m_drives.setSpeed(0.0);
+			m_pickup.setArmSpeed(0.0, true);
+		}
+	}
+
 	public void lowBarAndScore() {
 		if (m_step == 0) {
 			m_drives.resetEncoders();
@@ -91,7 +152,7 @@ public class AutonController {
 			m_step++;
 		} else if (m_step == 1) {
 			if (!m_pickup.goTo(Constants.PICKUP_ARM_DOWN + 0.002, 1.0)) { // TODO:
-																		// Remove
+																			// Remove
 				m_pickup.setArmSpeed(0.0, true);
 				m_step++;
 			}

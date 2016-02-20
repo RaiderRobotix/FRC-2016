@@ -30,7 +30,8 @@ public class Robot extends IterativeRobot {
 		m_autonChooser.addObject("0: Do Nothing (Default)", 0);
 		m_autonChooser.addObject("1: Low Bar And Score", 1);
 		m_autonChooser.addObject("2: Slot 2 Port Cullis and Score", 2);
-		m_autonChooser.addObject("3: General Cross Obstacle (Not Added Yet)", 3);
+		m_autonChooser.addObject("3: Slot 2 Teeter Totter and Score", 3);
+		m_autonChooser.addObject("4: General Cross Obstacle (Not Added Yet)", 4);
 		SmartDashboard.putData("Auton Key", m_autonChooser);
 		SmartDashboard.putNumber("Choose Auton", 0);
 	}
@@ -68,6 +69,8 @@ public class Robot extends IterativeRobot {
 			m_autonController.lowBarAndScore();
 		} else if (m_autonChosen == 2) {
 			m_autonController.portCullisSlowTwoAndScore();
+		} else if (m_autonChosen == 3) {
+			m_autonController.teeterTotterSlotTwoAndScore();
 		}
 	}
 

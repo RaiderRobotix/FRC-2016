@@ -34,6 +34,7 @@ public class Drivebase {
 		m_rightEncoder.setDistancePerPulse(Constants.INCHES_PER_COUNT);
 
 		m_gyro = new AnalogGyro(Constants.GYRO_PWM);
+		//m_gyro.setSensitivity(Constants.GYRO_SENSITIVITY);
 
 		m_driveStep = 0;
 	}
@@ -124,12 +125,12 @@ public class Drivebase {
 			resetGyro();
 			m_driveStep++;
 			return false;
-		} else if(m_driveStep == 1) {
-			if(averageDistance >= (absoluteDistance - 18.0)) {
+		} else if (m_driveStep == 1) {
+			if (averageDistance >= (absoluteDistance - 18.0)) {
 				m_driveStep++;
 			}
-		} else if(m_driveStep == 2) {
-			if(averageDistance >= absoluteDistance) {
+		} else if (m_driveStep == 2) {
+			if (averageDistance >= absoluteDistance) {
 				m_driveStep++;
 			} else {
 				if (distance > 0.0) {
