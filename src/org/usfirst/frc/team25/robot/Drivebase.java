@@ -118,38 +118,30 @@ public class Drivebase {
 	public boolean driveStraight(double distance, double speed) {
 		brakesOff();
 		double absoluteDistance = Math.abs(distance);
-		double averageDistance = Math.abs(getLeftEncoderDistance()); // Only
-																		// using
-																		// one
-																		// encoder
+		double averageDistance = Math.abs(getLeftEncoderDistance());
 		if (m_driveStep == 0) {
 			resetEncoders();
 			resetGyro();
 			m_driveStep++;
 			return false;
-		} else if (m_driveStep == 1) {
-			if (absoluteDistance * (4.0 / 5.0) <= averageDistance) {
+		} else if(m_driveStep == 1) {
+			if(averageDistance >= (absoluteDistance - 18.0)) {
 				m_driveStep++;
 			}
-		} else if (m_driveStep == 2) {
-			if (absoluteDistance * (14.0 / 15.0) <= averageDistance) {
+		} else if(m_driveStep == 2) {
+			if(averageDistance >= absoluteDistance) {
 				m_driveStep++;
 			} else {
-				speed /= 3.5;
-			}
-		} else if (m_driveStep == 3) {
-			if (averageDistance < absoluteDistance) {
 				if (distance > 0.0) {
 					setSpeed(0.18, 0.1);
 				} else {
 					setSpeed(-0.1, -0.18);
 				}
-				return false;
-			} else {
-				setSpeed(0.0);
-				m_driveStep = 0;
-				return true;
 			}
+		} else {
+			setSpeed(0.0);
+			m_driveStep = 0;
+			return true;
 		}
 		speed = Math.abs(speed) * (distance / Math.abs(distance));
 		double adjustment = speed / 10.0;

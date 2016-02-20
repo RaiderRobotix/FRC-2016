@@ -34,7 +34,7 @@ public class AutonController {
 			m_drives.resetGyro();
 			m_step++;
 		} else if (m_step == 1) {
-			if (!m_pickup.goTo(Constants.PICKUP_PORT_CULLIS)) {
+			if (!m_pickup.goTo(Constants.PICKUP_PORT_CULLIS, 1.0)) {
 				m_pickup.setArmSpeed(0.0, true);
 				m_step++;
 			}
@@ -47,7 +47,7 @@ public class AutonController {
 			}
 		} else if (m_step == 3) {
 			m_drives.driveStraight(100.0, 0.4);
-			if (!m_pickup.goTo(Constants.PICKUP_PORT_CULLIS_HIGH)) {
+			if (!m_pickup.goTo(Constants.PICKUP_PORT_CULLIS_HIGH, 1.0)) {
 				m_pickup.setArmSpeed(0.0, true);
 				m_drives.setSpeed(0.0);
 				m_step++;
@@ -64,7 +64,7 @@ public class AutonController {
 				m_step++;
 			}
 		} else if (m_step == 6) {
-			if (!m_pickup.goTo(Constants.PICKUP_ARM_DOWN)) {
+			if (!m_pickup.goTo(Constants.PICKUP_ARM_DOWN, 1.0)) {
 				m_pickup.setArmSpeed(0.0, true);
 				m_drives.resetEncoders();
 				m_drives.resetGyro();
@@ -90,7 +90,7 @@ public class AutonController {
 			m_drives.resetGyro();
 			m_step++;
 		} else if (m_step == 1) {
-			if (!m_pickup.goTo(Constants.PICKUP_ARM_DOWN + 0.002)) { // TODO:
+			if (!m_pickup.goTo(Constants.PICKUP_ARM_DOWN + 0.002, 1.0)) { // TODO:
 																		// Remove
 				m_pickup.setArmSpeed(0.0, true);
 				m_step++;
