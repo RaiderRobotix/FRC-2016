@@ -31,7 +31,9 @@ public class Robot extends IterativeRobot {
 		m_autonChooser.addObject("1: Low Bar And Score", 1);
 		m_autonChooser.addObject("2: Slot 2 Port Cullis and Score", 2);
 		m_autonChooser.addObject("3: Slot 2 Teeter Totter and Score", 3);
-		m_autonChooser.addObject("4: General Cross Obstacle (Not Added Yet)", 4);
+		m_autonChooser.addObject("4: Slot 4 Teeter Totter and Score", 4);
+		m_autonChooser.addObject("5: Slot 5 Teeter Totter and Score", 5);
+		m_autonChooser.addObject("6: General Cross Obstacle (Not Added Yet)", 6);
 		SmartDashboard.putData("Auton Key", m_autonChooser);
 		SmartDashboard.putNumber("Choose Auton", 0);
 	}
@@ -42,11 +44,6 @@ public class Robot extends IterativeRobot {
 		System.out.println("Pickup Pot: " + m_pickup.getPot());
 		System.out.println("Gyro: " + m_drives.getGyroAngle());
 		System.out.println("Auton Chosen: " + SmartDashboard.getNumber("Choose Auton"));
-		if (Utility.getUserButton()) {
-			// RoboRIO User Button
-			SmartDashboard.putData("Auton Key", m_autonChooser);
-			SmartDashboard.putNumber("Choose Auton", 0);
-		}
 	}
 
 	public void disabledInit() {
@@ -54,6 +51,9 @@ public class Robot extends IterativeRobot {
 
 	public void disabledPeriodic() {
 		update();
+		if (Utility.getUserButton()) {
+			m_drives.calibrateGyro();
+		}
 	}
 
 	public void autonomousInit() {
@@ -71,6 +71,10 @@ public class Robot extends IterativeRobot {
 			m_autonController.portCullisSlowTwoAndScore();
 		} else if (m_autonChosen == 3) {
 			m_autonController.teeterTotterSlotTwoAndScore();
+		} else if (m_autonChosen == 4) {
+			m_autonController.teeterTotterSlotFourAndScore();
+		} else if (m_autonChosen == 5) {
+			m_autonController.teeterTotterSlotFiveAndScore();
 		}
 	}
 

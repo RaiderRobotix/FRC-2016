@@ -6,7 +6,7 @@ public abstract class Constants {
 	public static final double DRIVE_STRAIGHT_TOLERANCE = 1.0; // (In Degrees)
 	public static final int PICKUP_PDP_PORT = 13; // Arm
 	public static final double PICKUP_CURRENT_LIMIT = 35.0;
-	public static final double GYRO_SENSITIVITY = 0.007;
+	public static final double GYRO_SENSITIVITY = 80.0;
 
 	// PWMs (Control)
 	public static final int PICKUP_ROLLERS_PWM = 5;

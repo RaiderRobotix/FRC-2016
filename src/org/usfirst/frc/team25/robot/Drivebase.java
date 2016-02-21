@@ -125,7 +125,7 @@ public class Drivebase {
 			resetGyro();
 			m_driveStep++;
 			return false;
-		} else if (m_driveStep == 1) {
+		}else if (m_driveStep == 1) {
 			if (averageDistance >= (absoluteDistance - 18.0)) {
 				m_driveStep++;
 			}
@@ -134,9 +134,9 @@ public class Drivebase {
 				m_driveStep++;
 			} else {
 				if (distance > 0.0) {
-					setSpeed(0.18, 0.1);
+					setSpeed(0.18, 0.12);
 				} else {
-					setSpeed(-0.1, -0.18);
+					setSpeed(-0.12, -0.18);
 				}
 			}
 		} else {
@@ -170,6 +170,10 @@ public class Drivebase {
 		m_gyro.reset();
 	}
 
+	public void calibrateGyro() {
+		m_gyro.calibrate();
+	}
+	
 	public double getGyroAngle() {
 		return m_gyro.getAngle();
 	}
