@@ -58,7 +58,7 @@ public class Pickup {
 			return false;
 		}
 		boolean down = difference > 0.0;
-		double slowSpeedRange = 0.025;
+		double slowSpeedRange = 0.035;
 		if (Math.abs(difference) <= slowSpeedRange) {
 			// Slow down if in close zone
 			setArmSpeed((down ? speed / 4.0 : -(speed / 4.0)), false);
@@ -101,4 +101,8 @@ public class Pickup {
 		return m_pot.get();
 	}
 
+	public boolean lineBroken() {
+		return !m_lineBreaker.get();
+	}
+	
 }

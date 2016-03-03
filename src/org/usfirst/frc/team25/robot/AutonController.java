@@ -270,8 +270,7 @@ public class AutonController {
 			m_drives.resetGyro();
 			m_step++;
 		} else if (m_step == 1) {
-			if (!m_pickup.goTo(Constants.PICKUP_ARM_DOWN + 0.002, 1.0)) { // TODO:
-																			// Remove
+			if (!m_pickup.goTo(Constants.PICKUP_ARM_DOWN + 0.002, 1.0)) {
 				m_pickup.setArmSpeed(0.0, true);
 				m_step++;
 			}

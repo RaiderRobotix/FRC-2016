@@ -1,5 +1,6 @@
 package org.usfirst.frc.team25.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Utility;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -11,8 +12,12 @@ public class Robot extends IterativeRobot {
 	private OI m_OI;
 	private Drivebase m_drives;
 	private Pickup m_pickup;
+	private LEDs m_leds;
 	private SendableChooser m_autonChooser;
 	private int m_autonChosen;
+	private int m_ledIncrement;
+	private int m_r, m_g, m_b;
+	private boolean m_redAlliance;
 
 	public void robotInit() {
 		// ===== ROBOT MECHANISMS =====
@@ -20,10 +25,20 @@ public class Robot extends IterativeRobot {
 		m_OI = OI.getInstance();
 		m_drives = Drivebase.getInstance();
 		m_pickup = Pickup.getInstance();
+		m_leds = LEDs.getInstance();
 
 		// ===== RESETS =====
 		m_drives.resetGyro();
 		m_drives.resetEncoders();
+
+		// ===== LEDS =====
+		m_ledIncrement = 1;
+		m_redAlliance = DriverStation.getInstance().getAlliance() == DriverStation.Alliance.Red;
+		m_r = (m_redAlliance ? 255 : 0);
+		m_g = 0;
+		m_b = (m_redAlliance ? 0 : 255);
+		m_leds.setRGB(m_r, m_g, m_b);
+		m_leds.update();
 
 		// ===== AUTON STUFF =====
 		m_autonChooser = new SendableChooser();
@@ -75,6 +90,14 @@ public class Robot extends IterativeRobot {
 			m_autonController.teeterTotterSlotFourAndScore();
 		} else if (m_autonChosen == 5) {
 			m_autonController.teeterTotterSlotFiveAndScore();
+		}
+
+		// ======= LEDS ======
+		m_r += (m_redAlliance ? 0 : m_ledIncrement);
+		m_g += m_ledIncrement;
+		m_b += (m_redAlliance ? m_ledIncrement : 0);
+		if (m_g % 255 == 0) {
+			m_ledIncrement *= -1;
 		}
 	}
 

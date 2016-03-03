@@ -21,5 +21,5 @@ public class Hanger {
 	public void setSpeed(double speed) {
 		m_winch.set(speed);
 	}
-	
+
 }

@@ -7,6 +7,7 @@ public abstract class Constants {
 	public static final int PICKUP_PDP_PORT = 13; // Arm
 	public static final double PICKUP_CURRENT_LIMIT = 35.0;
 	public static final double GYRO_SENSITIVITY = 80.0;
+	public static final int I2C_DEVICE_ADDRESS = 8;
 
 	// PWMs (Control)
 	public static final int PICKUP_ROLLERS_PWM = 5;
@@ -15,7 +16,7 @@ public abstract class Constants {
 	public static final int RIGHT_DRIVES_PWM = 0;
 	public static final int LEFT_BRAKE_PWM = 9;
 	public static final int RIGHT_BRAKE_PWM = 1;
-	public static final int HANGER_WINCH_PWM = 7; // TODO: Fix
+	public static final int HANGER_WINCH_PWM = 7;
 
 	// Brake Positions
 	public static final double LEFT_BRAKES_ON = 0.42;
@@ -24,7 +25,7 @@ public abstract class Constants {
 	public static final double RIGHT_BRAKES_OFF = 0.34;
 
 	// Digital Sensors
-	public static final int PICKUP_LINE_BREAKER_PWM = 0;
+	public static final int PICKUP_LINE_BREAKER_PWM = 5;
 	public static final int LEFT_ENCODER_PWM_A = 9;
 	public static final int LEFT_ENCODER_PWM_B = 4;
 	public static final int RIGHT_ENCODER_PWM_A = 6;
@@ -44,15 +45,11 @@ public abstract class Constants {
 	public static final int OPERATOR_JOYSTICK_PORT = 2;
 	public static final double DEADBAND = 0.2;
 
-	// Relays
-	public static final int GREEN_SPIKE_PWM = 0; // TODO: Fix both of these.
-	public static final int RED_BLUE_SPIKE_PWM = 0;
-
 	// Pickup Positions
-	public static final double PICKUP_BACK_LIMIT = 0.9348;
-	public static final double PICKUP_ARM_UP = 0.9289;
-	public static final double PICKUP_ARM_DOWN = 0.7722;
-	public static final double PICKUP_PORT_CULLIS = 0.7759;
-	public static final double PICKUP_PORT_CULLIS_HIGH = 0.9002;
-	public static final double PICKUP_RAMPS_HEIGHT = 0.7758;
+	public static final double PICKUP_BACK_LIMIT = 0.6548;
+	public static final double PICKUP_ARM_UP = 0.6375;
+	public static final double PICKUP_ARM_DOWN = 0.4945;
+	public static final double PICKUP_PORT_CULLIS = 0.52; // TODO: Fix
+	public static final double PICKUP_PORT_CULLIS_HIGH = 0.6118;
+	public static final double PICKUP_RAMPS_HEIGHT = 0.52; // TODO: Fix
 }
