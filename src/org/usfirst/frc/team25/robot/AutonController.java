@@ -204,6 +204,7 @@ public class AutonController {
 	/**
 	 * General Cross Obstacle
 	 */
+	
 	public void generalCrossObstacle() {
 		if (m_step == 0) {
 			m_drives.resetEncoders();
