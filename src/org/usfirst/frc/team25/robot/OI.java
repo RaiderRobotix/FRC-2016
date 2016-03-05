@@ -1,25 +1,27 @@
 package org.usfirst.frc.team25.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Timer;
 
 public class OI {
 
+	// ===== Robot Mechanisms =====
 	private static OI m_instance;
 	private final Pickup m_pickup;
 	private final Drivebase m_drives;
 	private final Hanger m_hanger;
 	private final LEDs m_leds;
+
+	// ===== Joysticks =====
 	private final Joystick m_rightStick;
 	private final Joystick m_leftStick;
 	private final Joystick m_operatorStick;
-	private final PowerDistributionPanel m_pdp;
+
+	// ===== Auto-move Mechanisms =====
 	private boolean m_pickupSequenceRunning;
 	private double m_pickupSequenceValue;
 	private boolean m_hangerHasRan;
-	private int m_ledStage;
-	private int m_r, m_g, m_b;
 	private Timer m_hangTimer;
 	private boolean m_autoHang;
 
@@ -33,17 +35,10 @@ public class OI {
 		m_leftStick = new Joystick(Constants.LEFT_JOYSTICK_PORT);
 		m_operatorStick = new Joystick(Constants.OPERATOR_JOYSTICK_PORT);
 
-		m_pdp = new PowerDistributionPanel();
-
 		m_pickupSequenceRunning = false;
 		m_hangerHasRan = false;
 		m_autoHang = false;
 		m_hangTimer = new Timer();
-
-		m_ledStage = 0;
-		m_r = 255;
-		m_g = 0;
-		m_b = 0;
 	}
 
 	public static OI getInstance() {
@@ -84,30 +79,24 @@ public class OI {
 		}
 
 		// =========== PICKUP ARM ===========
-		if (getOperatorButton(6) && !getOperatorButton(4) && !getOperatorButton(5) && !getOperatorButton(12)) {
+		if (getOperatorButton(6) && !getOperatorButton(4) && !getOperatorButton(5)) {
 			// Button 6, arm up.
 			m_pickupSequenceRunning = true;
 			m_pickupSequenceValue = Constants.PICKUP_ARM_UP;
-		} else if (getOperatorButton(4) && !getOperatorButton(6) && !getOperatorButton(5) && !getOperatorButton(12)) {
+		} else if (getOperatorButton(4) && !getOperatorButton(6) && !getOperatorButton(5)) {
 			// Button 4, arm down.
 			m_pickupSequenceRunning = true;
 			m_pickupSequenceValue = Constants.PICKUP_ARM_DOWN;
-		} else if (getOperatorButton(5) && !getOperatorButton(6) && !getOperatorButton(4) && !getOperatorButton(12)) {
+		} else if (getOperatorButton(5) && !getOperatorButton(6) && !getOperatorButton(4)) {
 			// Button 5, port cullis height.
-			m_pickupSequenceRunning = true;
-			m_pickupSequenceValue = Constants.PICKUP_PORT_CULLIS;
-		} else if (getOperatorButton(12) && !getOperatorButton(5) && !getOperatorButton(4) && !getOperatorButton(6)) {
 			m_pickupSequenceRunning = true;
 			m_pickupSequenceValue = Constants.PICKUP_RAMPS_HEIGHT;
 		}
 
-		if (m_pdp.getCurrent(Constants.PICKUP_PDP_PORT) >= Constants.PICKUP_CURRENT_LIMIT) {
-			m_pickupSequenceRunning = false;
-			m_pickup.setArmSpeed(0.0, true);
-		} else if (getOperatorButton(3) || getOperatorPOV() == 180) {
+		if (getOperatorButton(3) || getOperatorButton(11)) {
 			// Run normally
 			m_pickupSequenceRunning = false;
-			m_pickup.setArmSpeed(getOperatorY(), getOperatorPOV() == 180);
+			m_pickup.setArmSpeed(getOperatorY(), getOperatorButton(11));
 		} else if (!m_pickupSequenceRunning) {
 			// If let go of button, return to 0%
 			m_pickup.setArmSpeed(0.0, true);
@@ -136,6 +125,11 @@ public class OI {
 				m_hangTimer.start();
 				m_hangTimer.reset();
 				m_autoHang = true;
+			} else if(getOperatorButton(9)) {
+				//Slow down
+				m_hangerHasRan = true;
+				m_hanger.setSpeed(-0.1);
+				m_autoHang = false;
 			} else if (getOperatorButton(8)) {
 				// Manual up
 				m_hangerHasRan = true;
@@ -144,44 +138,28 @@ public class OI {
 			} else if (getOperatorButton(10)) {
 				// Manual down
 				m_hangerHasRan = true;
-				m_hanger.setSpeed((getOperatorPOV() == 180) ? -0.1 : -1.0);
+				m_hanger.setSpeed(-1.0);
 				m_autoHang = false;
 			} else {
 				m_hanger.setSpeed(0.0);
 			}
+		} else {
+			m_hanger.setSpeed(0.0);
 		}
 
 		// =========== LEDS ===========
-		if (m_hangerHasRan || m_pickup.lineBroken()) {
-			switch (m_ledStage) {
-			case 0:
-				m_g++;
-				break;
-			case 1:
-				m_r--;
-				break;
-			case 2:
-				m_b++;
-				break;
-			case 3:
-				m_g--;
-				break;
-			case 4:
-				m_r++;
-				break;
-			case 5:
-				m_b--;
-				break;
-			}
-			if (m_r % 255 == 0 && m_g % 255 == 0 && m_b % 255 == 0) {
-				m_ledStage++;
-				m_ledStage %= 6;
-			}
-			m_leds.setRGB(m_r, m_g, m_b);
+		if (m_hangerHasRan) {
+			m_leds.flash(DriverStation.getInstance().getAlliance());
+		} else if (m_pickup.lineBroken()) {
+			m_leds.flash(null);
+		} else if (m_pickup.getPot() < Constants.PICKUP_ARM_DOWN + 0.008) {
+			m_leds.setRGB(255, 0, 255);
+			m_leds.update();
 		} else {
-			m_leds.setRGB(0, (m_pickup.getPot() < Constants.PICKUP_ARM_DOWN + 0.008 ? 255 : 0), 0);
+			m_leds.setRGB(0, 0, 0);
+			m_leds.update();
 		}
-		m_leds.update();
+
 	}
 
 	private double getLeftY() {

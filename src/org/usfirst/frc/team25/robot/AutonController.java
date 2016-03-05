@@ -1,15 +1,19 @@
 package org.usfirst.frc.team25.robot;
 
+import edu.wpi.first.wpilibj.Timer;
+
 public class AutonController {
 
 	private static AutonController m_instance;
 	private int m_step;
 	private final Drivebase m_drives;
 	private final Pickup m_pickup;
+	private final Timer m_timer;
 
 	private AutonController() {
 		m_drives = Drivebase.getInstance();
 		m_pickup = Pickup.getInstance();
+		m_timer = new Timer();
 		m_step = 0;
 	}
 
@@ -93,21 +97,26 @@ public class AutonController {
 			m_drives.brakesOff();
 			m_step++;
 		} else if (m_step == 1) {
-			if (m_drives.driveStraight(47.0, 0.5)) {
-				m_drives.setSpeed(0.0);
+			if (!m_pickup.goTo(Constants.PICKUP_RAMPS_HEIGHT, 1.0)) {
+				m_pickup.setArmSpeed(0.0, true);
 				m_step++;
 			}
 		} else if (m_step == 2) {
-			if (m_pickup.getPot() <= 0.79) {
-				m_drives.setSpeed(-0.1, -0.18);
-			}
-			if (!m_pickup.goTo(Constants.PICKUP_RAMPS_HEIGHT, 0.5)) {
-				m_pickup.setArmSpeed(0.0, true);
-				m_drives.resetGyro();
-				m_drives.resetEncoders();
+			if (m_drives.driveStraight(47.0, 0.5)) {
+				m_drives.setSpeed(0.0);
+				m_timer.start();
+				m_timer.reset();
 				m_step++;
 			}
 		} else if (m_step == 3) {
+			if (!m_pickup.goTo(Constants.PICKUP_RAMPS_LOW, 0.5) || m_timer.get() >= 3.0) {
+				m_pickup.setArmSpeed(0.0, true);
+				m_drives.resetGyro();
+				m_drives.resetEncoders();
+				m_timer.stop();
+				m_step++;
+			}
+		} else if (m_step == 4) {
 			if (m_drives.getLeftEncoderDistance() > 30.0 && m_drives.getLeftEncoderDistance() < 50.0) {
 				m_pickup.goTo(Constants.PICKUP_PORT_CULLIS_HIGH, 1.0);
 			} else {
@@ -119,19 +128,19 @@ public class AutonController {
 				m_drives.resetGyro();
 				m_step++;
 			}
-		} else if (m_step == 4) {
+		} else if (m_step == 5) {
 			if (m_drives.turnToAngle(63, 0.5)) {
 				m_drives.resetEncoders();
 				m_drives.resetGyro();
 				m_drives.setSpeed(0.0);
 				m_step++;
 			}
-		} else if (m_step == 5) {
+		} else if (m_step == 6) {
 			if (!m_pickup.goTo(Constants.PICKUP_ARM_DOWN, 1.0)) {
 				m_pickup.setArmSpeed(0.0, true);
 				m_step += 2;
 			}
-		} else if (m_step == 6) {
+		} else if (m_step == 7) {
 			if (m_drives.driveStraight(18.0, 0.5)) {
 				m_drives.setSpeed(0.0);
 				m_drives.brakesOn();
@@ -142,10 +151,77 @@ public class AutonController {
 			m_drives.setSpeed(0.0);
 			m_pickup.setArmSpeed(0.0, true);
 		}
+
 	}
 
 	/**
-	 * Teeter Totter- Slot 5 & Score
+	 * General Cross Ramps
+	 */
+	public void teeterTotterGeneral() {
+		if (m_step == 0) {
+			m_drives.resetEncoders();
+			m_drives.resetGyro();
+			m_drives.brakesOff();
+			m_step++;
+		} else if (m_step == 1) {
+			if (!m_pickup.goTo(Constants.PICKUP_RAMPS_HEIGHT, 1.0)) {
+				m_pickup.setArmSpeed(0.0, true);
+				m_step++;
+			}
+		} else if (m_step == 2) {
+			if (m_drives.driveStraight(47.0, 0.5)) {
+				m_drives.setSpeed(0.0);
+				m_timer.start();
+				m_timer.reset();
+				m_step++;
+			}
+		} else if (m_step == 3) {
+			if (!m_pickup.goTo(Constants.PICKUP_RAMPS_LOW, 0.5) || m_timer.get() >= 3.0) {
+				m_pickup.setArmSpeed(0.0, true);
+				m_drives.resetGyro();
+				m_drives.resetEncoders();
+				m_timer.stop();
+				m_step++;
+			}
+		} else if (m_step == 4) {
+			if (m_drives.getLeftEncoderDistance() > 30.0 && m_drives.getLeftEncoderDistance() < 50.0) {
+				m_pickup.goTo(Constants.PICKUP_PORT_CULLIS_HIGH, 1.0);
+			} else {
+				m_pickup.setArmSpeed(0.0, true);
+			}
+			if (m_drives.driveStraight(160.0, 0.5)) {
+				m_drives.setSpeed(0.0);
+				m_pickup.setArmSpeed(0.0, true);
+				m_drives.resetGyro();
+				m_step++;
+			}
+		} else {
+			m_drives.setSpeed(0.0);
+			m_pickup.setArmSpeed(0.0, true);
+		}
+	}
+
+	/**
+	 * General Cross Obstacle
+	 */
+	public void generalCrossObstacle() {
+		if (m_step == 0) {
+			m_drives.resetEncoders();
+			m_drives.resetGyro();
+			m_drives.brakesOff();
+			m_step++;
+		} else if (m_step == 1) {
+			if (m_drives.driveStraight(150.0, 0.0)) {
+				m_drives.setSpeed(0.0);
+				m_step++;
+			}
+		} else {
+			m_drives.setSpeed(0.0);
+		}
+	}
+
+	/**
+	 * Teeter Totter-Slot 5 & Score
 	 */
 	public void teeterTotterSlotFiveAndScore() {
 		if (m_step == 0) {
@@ -154,18 +230,26 @@ public class AutonController {
 			m_drives.brakesOff();
 			m_step++;
 		} else if (m_step == 1) {
-			if (m_drives.driveStraight(47.0, 0.5)) {
-				m_drives.setSpeed(0.0);
+			if (!m_pickup.goTo(Constants.PICKUP_RAMPS_HEIGHT, 1.0)) {
+				m_pickup.setArmSpeed(0.0, true);
 				m_step++;
 			}
 		} else if (m_step == 2) {
-			if (!m_pickup.goTo(0.783, 0.5)) {
-				m_pickup.setArmSpeed(0.0, true);
-				m_drives.resetGyro();
-				m_drives.resetEncoders();
+			if (m_drives.driveStraight(47.0, 0.5)) {
+				m_drives.setSpeed(0.0);
+				m_timer.start();
+				m_timer.reset();
 				m_step++;
 			}
 		} else if (m_step == 3) {
+			if (!m_pickup.goTo(Constants.PICKUP_RAMPS_LOW, 0.5) || m_timer.get() >= 3.0) {
+				m_pickup.setArmSpeed(0.0, true);
+				m_drives.resetGyro();
+				m_drives.resetEncoders();
+				m_timer.stop();
+				m_step++;
+			}
+		} else if (m_step == 4) {
 			if (m_drives.getLeftEncoderDistance() > 30.0 && m_drives.getLeftEncoderDistance() < 50.0) {
 				m_pickup.goTo(Constants.PICKUP_PORT_CULLIS_HIGH, 1.0);
 			} else {
@@ -177,19 +261,19 @@ public class AutonController {
 				m_drives.resetGyro();
 				m_step++;
 			}
-		} else if (m_step == 4) {
+		} else if (m_step == 5) {
 			if (m_drives.turnToAngle(-73.0, 0.5)) {
 				m_drives.setSpeed(0.0);
 				m_drives.resetGyro();
 				m_drives.resetEncoders();
 				m_step++;
 			}
-		} else if (m_step == 5) {
+		} else if (m_step == 6) {
 			if (!m_pickup.goTo(Constants.PICKUP_ARM_DOWN, 1.0)) {
 				m_pickup.setArmSpeed(0.0, true);
 				m_step++;
 			}
-		} else if (m_step == 6) {
+		} else if (m_step == 7) {
 			if (m_drives.driveStraight(24.0, 0.5)) {
 				m_drives.setSpeed(0.0);
 				m_drives.brakesOn();

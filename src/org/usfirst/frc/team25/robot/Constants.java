@@ -51,5 +51,6 @@ public abstract class Constants {
 	public static final double PICKUP_ARM_DOWN = 0.4945;
 	public static final double PICKUP_PORT_CULLIS = 0.52; // TODO: Fix
 	public static final double PICKUP_PORT_CULLIS_HIGH = 0.6118;
-	public static final double PICKUP_RAMPS_HEIGHT = 0.52; // TODO: Fix
+	public static final double PICKUP_RAMPS_HEIGHT = 0.5355;
+	public static final double PICKUP_RAMPS_LOW = 0.4995;
 }

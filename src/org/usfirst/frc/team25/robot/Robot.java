@@ -8,16 +8,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
 
+	// ====== Robot Classes ======
 	private AutonController m_autonController;
 	private OI m_OI;
 	private Drivebase m_drives;
 	private Pickup m_pickup;
 	private LEDs m_leds;
+
+	// ====== Auton Logic ======
 	private SendableChooser m_autonChooser;
 	private int m_autonChosen;
-	private int m_ledIncrement;
-	private int m_r, m_g, m_b;
-	private boolean m_redAlliance;
 
 	public void robotInit() {
 		// ===== ROBOT MECHANISMS =====
@@ -32,12 +32,7 @@ public class Robot extends IterativeRobot {
 		m_drives.resetEncoders();
 
 		// ===== LEDS =====
-		m_ledIncrement = 1;
-		m_redAlliance = DriverStation.getInstance().getAlliance() == DriverStation.Alliance.Red;
-		m_r = (m_redAlliance ? 255 : 0);
-		m_g = 0;
-		m_b = (m_redAlliance ? 0 : 255);
-		m_leds.setRGB(m_r, m_g, m_b);
+		m_leds.setOn(true);
 		m_leds.update();
 
 		// ===== AUTON STUFF =====
@@ -48,7 +43,8 @@ public class Robot extends IterativeRobot {
 		m_autonChooser.addObject("3: Slot 2 Teeter Totter and Score", 3);
 		m_autonChooser.addObject("4: Slot 4 Teeter Totter and Score", 4);
 		m_autonChooser.addObject("5: Slot 5 Teeter Totter and Score", 5);
-		m_autonChooser.addObject("6: General Cross Obstacle (Not Added Yet)", 6);
+		m_autonChooser.addObject("6: General Cross Ramps", 6);
+		m_autonChooser.addObject("7: General Cross Obstacle", 7);
 		SmartDashboard.putData("Auton Key", m_autonChooser);
 		SmartDashboard.putNumber("Choose Auton", 0);
 	}
@@ -90,15 +86,13 @@ public class Robot extends IterativeRobot {
 			m_autonController.teeterTotterSlotFourAndScore();
 		} else if (m_autonChosen == 5) {
 			m_autonController.teeterTotterSlotFiveAndScore();
+		} else if (m_autonChosen == 6) {
+			m_autonController.teeterTotterGeneral();
+		} else if (m_autonChosen == 7) {
+			m_autonController.generalCrossObstacle();
 		}
 
-		// ======= LEDS ======
-		m_r += (m_redAlliance ? 0 : m_ledIncrement);
-		m_g += m_ledIncrement;
-		m_b += (m_redAlliance ? m_ledIncrement : 0);
-		if (m_g % 255 == 0) {
-			m_ledIncrement *= -1;
-		}
+		m_leds.flash(DriverStation.getInstance().getAlliance());
 	}
 
 	public void teleopInit() {
