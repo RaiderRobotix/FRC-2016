@@ -1,6 +1,5 @@
 package org.usfirst.frc.team25.robot;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
 
@@ -11,7 +10,7 @@ public class OI {
 	private final Pickup m_pickup;
 	private final Drivebase m_drives;
 	private final Hanger m_hanger;
-	//private final LEDs m_leds;
+	// private final LEDs m_leds;
 
 	// ===== Joysticks =====
 	private final Joystick m_rightStick;
@@ -29,7 +28,7 @@ public class OI {
 		m_drives = Drivebase.getInstance();
 		m_pickup = Pickup.getInstance();
 		m_hanger = Hanger.getInstance();
-		//m_leds = LEDs.getInstance();
+		// m_leds = LEDs.getInstance();
 
 		m_rightStick = new Joystick(Constants.RIGHT_JOYSTICK_PORT);
 		m_leftStick = new Joystick(Constants.LEFT_JOYSTICK_PORT);
@@ -125,8 +124,8 @@ public class OI {
 				m_hangTimer.start();
 				m_hangTimer.reset();
 				m_autoHang = true;
-			} else if(getOperatorButton(9)) {
-				//Slow down
+			} else if (getOperatorButton(9)) {
+				// Slow down
 				m_hangerHasRan = true;
 				m_hanger.setSpeed(-0.1);
 				m_autoHang = false;
@@ -148,17 +147,17 @@ public class OI {
 		}
 
 		// =========== LEDS ===========
-		//if (m_hangerHasRan) {
-		//	m_leds.flash(DriverStation.getInstance().getAlliance());
-		//} else if (m_pickup.lineBroken()) {
-		//	m_leds.flash(null);
-		//} else if (m_pickup.getPot() < Constants.PICKUP_ARM_DOWN + 0.008) {
-		//	m_leds.setRGB(255, 0, 255);
-		//	m_leds.update();
-		//} else {
-		//	m_leds.setRGB(0, 0, 0);
-		//	m_leds.update();
-		//}
+		// if (m_hangerHasRan) {
+		// m_leds.flash(DriverStation.getInstance().getAlliance());
+		// } else if (m_pickup.lineBroken()) {
+		// m_leds.flash(null);
+		// } else if (m_pickup.getPot() < Constants.PICKUP_ARM_DOWN + 0.008) {
+		// m_leds.setRGB(255, 0, 255);
+		// m_leds.update();
+		// } else {
+		// m_leds.setRGB(0, 0, 0);
+		// m_leds.update();
+		// }
 
 	}
 

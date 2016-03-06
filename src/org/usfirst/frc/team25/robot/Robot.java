@@ -1,6 +1,5 @@
 package org.usfirst.frc.team25.robot;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Utility;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -13,7 +12,7 @@ public class Robot extends IterativeRobot {
 	private OI m_OI;
 	private Drivebase m_drives;
 	private Pickup m_pickup;
-	//private LEDs m_leds;
+	// private LEDs m_leds;
 
 	// ====== Auton Logic ======
 	private SendableChooser m_autonChooser;
@@ -25,15 +24,15 @@ public class Robot extends IterativeRobot {
 		m_OI = OI.getInstance();
 		m_drives = Drivebase.getInstance();
 		m_pickup = Pickup.getInstance();
-		//m_leds = LEDs.getInstance();
+		// m_leds = LEDs.getInstance();
 
 		// ===== RESETS =====
 		m_drives.resetGyro();
 		m_drives.resetEncoders();
 
 		// ===== LEDS =====
-		//m_leds.setOn(true);
-		//m_leds.update();
+		// m_leds.setOn(true);
+		// m_leds.update();
 
 		// ===== AUTON STUFF =====
 		m_autonChooser = new SendableChooser();
@@ -92,7 +91,7 @@ public class Robot extends IterativeRobot {
 			m_autonController.generalCrossObstacle();
 		}
 
-		//m_leds.flash(DriverStation.getInstance().getAlliance());
+		// m_leds.flash(DriverStation.getInstance().getAlliance());
 	}
 
 	public void teleopInit() {

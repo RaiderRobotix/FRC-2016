@@ -46,11 +46,12 @@ public abstract class Constants {
 	public static final double DEADBAND = 0.2;
 
 	// Pickup Positions
-	public static final double PICKUP_BACK_LIMIT = 0.6548;
-	public static final double PICKUP_ARM_UP = 0.6375;
-	public static final double PICKUP_ARM_DOWN = 0.4945;
-	public static final double PICKUP_PORT_CULLIS = 0.52; // TODO: Fix
-	public static final double PICKUP_PORT_CULLIS_HIGH = 0.6118;
-	public static final double PICKUP_RAMPS_HEIGHT = 0.5355;
-	public static final double PICKUP_RAMPS_LOW = 0.4995;
+	public static final double PICKUP_BACK_LIMIT = 0.901;
+	public static final double PICKUP_ARM_UP = 0.879;
+	public static final double PICKUP_ARM_DOWN = 0.4315;
+	public static final double PICKUP_PORT_CULLIS = 0.52; // Dont get
+	public static final double PICKUP_PORT_CULLIS_HIGH = 0.6118; // Dont get
+	public static final double PICKUP_RAMPS_HEIGHT = 0.5355; // Somewhere in the
+																// middle
+	public static final double PICKUP_RAMPS_LOW = 0.4995; // dont get
 }
