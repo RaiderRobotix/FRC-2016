@@ -34,7 +34,7 @@ public class Drivebase {
 		m_rightEncoder.setDistancePerPulse(Constants.INCHES_PER_COUNT);
 
 		m_gyro = new AnalogGyro(Constants.GYRO_PWM);
-		//m_gyro.setSensitivity(Constants.GYRO_SENSITIVITY);
+		//m_gyro.setSensitivity(Constants.GYRO_SENSITIVITY); (Not Needed)
 
 		m_driveStep = 0;
 	}

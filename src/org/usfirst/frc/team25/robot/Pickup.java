@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.Talon;
 public class Pickup {
 
 	private static Pickup m_instance;
+
 	private final Talon m_rollers;
 	private final Talon m_arm;
 	private final AnalogPotentiometer m_pot;
@@ -104,5 +105,5 @@ public class Pickup {
 	public boolean lineBroken() {
 		return !m_lineBreaker.get();
 	}
-	
+
 }

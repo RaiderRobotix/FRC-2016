@@ -5,12 +5,14 @@ import edu.wpi.first.wpilibj.Timer;
 
 public class OI {
 
-	// ===== Robot Mechanisms =====
 	private static OI m_instance;
+
+	// ===== Robot Mechanisms =====
 	private final Pickup m_pickup;
 	private final Drivebase m_drives;
 	private final Hanger m_hanger;
-	// private final LEDs m_leds;
+	// private final LEDs m_leds; // TODO: Get LEDs
+	// private final Relay m_horn; // TODO: Fix
 
 	// ===== Joysticks =====
 	private final Joystick m_rightStick;
@@ -29,6 +31,7 @@ public class OI {
 		m_pickup = Pickup.getInstance();
 		m_hanger = Hanger.getInstance();
 		// m_leds = LEDs.getInstance();
+		// m_horn = new Relay(Constants.HORN_CHANNEL);
 
 		m_rightStick = new Joystick(Constants.RIGHT_JOYSTICK_PORT);
 		m_leftStick = new Joystick(Constants.LEFT_JOYSTICK_PORT);
@@ -147,7 +150,7 @@ public class OI {
 		}
 
 		// =========== LEDS ===========
-		// if (m_hangerHasRan) {
+		// if (m_hangerHasRan) { See Above
 		// m_leds.flash(DriverStation.getInstance().getAlliance());
 		// } else if (m_pickup.lineBroken()) {
 		// m_leds.flash(null);
@@ -159,6 +162,12 @@ public class OI {
 		// m_leds.update();
 		// }
 
+		// =========== HORN ===========
+		if (getRightButton(2)) {
+			// m_horn.set(Relay.Value.kOn);
+		} else {
+			// m_horn.set(Relay.Value.kOff);
+		}
 	}
 
 	private double getLeftY() {

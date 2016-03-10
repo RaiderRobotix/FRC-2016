@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.VictorSP;
 public class Hanger {
 
 	private static Hanger m_instance;
+
 	private final VictorSP m_winch;
 
 	private Hanger() {

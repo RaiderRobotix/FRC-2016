@@ -30,7 +30,7 @@ public class Robot extends IterativeRobot {
 		m_drives.resetGyro();
 		m_drives.resetEncoders();
 
-		// ===== LEDS =====
+		// ===== LEDS ===== TODO: Get LEDs
 		// m_leds.setOn(true);
 		// m_leds.update();
 
@@ -44,6 +44,7 @@ public class Robot extends IterativeRobot {
 		m_autonChooser.addObject("5: Slot 5 Teeter Totter and Score", 5);
 		m_autonChooser.addObject("6: General Cross Ramps", 6);
 		m_autonChooser.addObject("7: General Cross Obstacle", 7);
+		m_autonChooser.addObject("8: Port Cullis General", 8);
 		SmartDashboard.putData("Auton Key", m_autonChooser);
 		SmartDashboard.putNumber("Choose Auton", 0);
 	}
@@ -78,7 +79,7 @@ public class Robot extends IterativeRobot {
 		if (m_autonChosen == 1) {
 			m_autonController.lowBarAndScore();
 		} else if (m_autonChosen == 2) {
-			m_autonController.portCullisSlowTwoAndScore();
+			m_autonController.portCullisSlotTwoAndScore();
 		} else if (m_autonChosen == 3) {
 			m_autonController.teeterTotterSlotTwoAndScore();
 		} else if (m_autonChosen == 4) {
@@ -89,9 +90,11 @@ public class Robot extends IterativeRobot {
 			m_autonController.teeterTotterGeneral();
 		} else if (m_autonChosen == 7) {
 			m_autonController.generalCrossObstacle();
+		} else if (m_autonChosen == 8) {
+			m_autonController.portCullisGeneral();
 		}
 
-		// m_leds.flash(DriverStation.getInstance().getAlliance());
+		// m_leds.flash(DriverStation.getInstance().getAlliance()); See Above
 	}
 
 	public void teleopInit() {

@@ -4,10 +4,10 @@ public abstract class Constants {
 
 	// Assorted Constants
 	public static final double DRIVE_STRAIGHT_TOLERANCE = 1.0; // (In Degrees)
-	public static final int PICKUP_PDP_PORT = 13; // Arm
 	public static final double PICKUP_CURRENT_LIMIT = 35.0;
 	public static final double GYRO_SENSITIVITY = 80.0;
 	public static final int I2C_DEVICE_ADDRESS = 8;
+	// public static final int HORN_CHANNEL = 0; // Relay TODO: Fix
 
 	// PWMs (Control)
 	public static final int PICKUP_ROLLERS_PWM = 5;
@@ -48,10 +48,9 @@ public abstract class Constants {
 	// Pickup Positions
 	public static final double PICKUP_BACK_LIMIT = 0.901;
 	public static final double PICKUP_ARM_UP = 0.879;
-	public static final double PICKUP_ARM_DOWN = 0.4315;
-	public static final double PICKUP_PORT_CULLIS = 0.52; // Dont get
-	public static final double PICKUP_PORT_CULLIS_HIGH = 0.6118; // Dont get
-	public static final double PICKUP_RAMPS_HEIGHT = 0.5355; // Somewhere in the
-																// middle
-	public static final double PICKUP_RAMPS_LOW = 0.4995; // dont get
+	public static final double PICKUP_ARM_DOWN = 0.4415;
+	public static final double PICKUP_PORT_CULLIS = PICKUP_ARM_DOWN;
+	public static final double PICKUP_PORT_CULLIS_HIGH = 0.5668; // Todo: Get
+	public static final double PICKUP_RAMPS_HEIGHT = 0.5355; // TODO: Get
+	public static final double PICKUP_RAMPS_LOW = 0.4995; // TODO: Get
 }

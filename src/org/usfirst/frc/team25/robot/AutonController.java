@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.Timer;
 public class AutonController {
 
 	private static AutonController m_instance;
+
 	private int m_step;
 	private final Drivebase m_drives;
 	private final Pickup m_pickup;
@@ -29,9 +30,53 @@ public class AutonController {
 	}
 
 	/**
+	 * General Port Cullis
+	 */
+	public void portCullisGeneral() {
+		if (m_step == 0) {
+			m_drives.resetEncoders();
+			m_drives.brakesOff();
+			m_drives.resetGyro();
+			m_timer.start();
+			m_timer.reset();
+			m_step++;
+		} else if (m_step == 1) {
+			if (!m_pickup.goTo(Constants.PICKUP_PORT_CULLIS, 1.0) || m_timer.get() > 2.5) {
+				m_timer.reset();
+				m_pickup.setArmSpeed(0.0, true);
+				m_step++;
+			}
+		} else if (m_step == 2) {
+			if (m_drives.driveStraight(60.0, 0.5) || m_timer.get() > 5.0) {
+				m_drives.setSpeed(0.0);
+				m_drives.resetEncoders();
+				m_drives.resetGyro();
+				m_timer.stop();
+				m_step++;
+			}
+		} else if (m_step == 3) {
+			m_drives.setSpeed(0.35);
+			if (!m_pickup.goTo(Constants.PICKUP_PORT_CULLIS_HIGH, 0.75)) {
+				m_pickup.setArmSpeed(0.0, true);
+				m_drives.resetEncoders();
+				m_drives.resetGyro();
+				m_step++;
+			}
+		} else if (m_step == 4) {
+			if (m_drives.driveStraight(50.0, 0.5)) {
+				m_drives.setSpeed(0.0);
+				m_step++;
+			}
+		} else {
+			m_drives.setSpeed(0.0);
+			m_pickup.setArmSpeed(0.0, true);
+		}
+	}
+
+	/**
 	 * Garage Door- Slot 2 & Score
 	 */
-	public void portCullisSlowTwoAndScore() {
+	public void portCullisSlotTwoAndScore() {
 		if (m_step == 0) {
 			m_drives.resetEncoders();
 			m_drives.brakesOff();
@@ -204,7 +249,7 @@ public class AutonController {
 	/**
 	 * General Cross Obstacle
 	 */
-	
+
 	public void generalCrossObstacle() {
 		if (m_step == 0) {
 			m_drives.resetEncoders();
@@ -353,10 +398,13 @@ public class AutonController {
 			m_drives.resetEncoders();
 			m_drives.brakesOff();
 			m_drives.resetGyro();
+			m_timer.start();
+			m_timer.reset();
 			m_step++;
 		} else if (m_step == 1) {
-			if (!m_pickup.goTo(Constants.PICKUP_ARM_DOWN + 0.002, 1.0)) {
+			if (!m_pickup.goTo(Constants.PICKUP_ARM_DOWN + 0.002, 1.0) || m_timer.get() > 4.0) {
 				m_pickup.setArmSpeed(0.0, true);
+				m_timer.stop();
 				m_step++;
 			}
 		} else if (m_step == 2) {
