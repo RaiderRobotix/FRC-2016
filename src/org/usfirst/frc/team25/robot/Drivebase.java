@@ -1,6 +1,7 @@
 package org.usfirst.frc.team25.robot;
 
-import edu.wpi.first.wpilibj.AnalogGyro;
+import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.VictorSP;
@@ -17,7 +18,7 @@ public class Drivebase {
 	private final Encoder m_rightEncoder;
 	private boolean m_brakesOn;
 	private int m_driveStep;
-	private final AnalogGyro m_gyro;
+	private AHRS m_navX;
 
 	private Drivebase() {
 		m_leftDrives = new VictorSP(Constants.LEFT_DRIVES_PWM);
@@ -32,9 +33,6 @@ public class Drivebase {
 
 		m_leftEncoder.setDistancePerPulse(Constants.INCHES_PER_COUNT);
 		m_rightEncoder.setDistancePerPulse(Constants.INCHES_PER_COUNT);
-
-		m_gyro = new AnalogGyro(Constants.GYRO_PWM);
-		//m_gyro.setSensitivity(Constants.GYRO_SENSITIVITY); (Not Needed)
 
 		m_driveStep = 0;
 	}
@@ -89,7 +87,7 @@ public class Drivebase {
 	}
 
 	public boolean turnToAngle(double angle, double speed) {
-		System.out.println("Gyro: " + m_gyro.getAngle());
+		System.out.println("Gyro: " + getGyroAngle());
 		brakesOff();
 		double error = getGyroAngle() - angle;
 		if (Math.abs(error) <= Constants.DRIVE_STRAIGHT_TOLERANCE) {
@@ -122,10 +120,10 @@ public class Drivebase {
 		double averageDistance = Math.abs(getLeftEncoderDistance());
 		if (m_driveStep == 0) {
 			resetEncoders();
-			resetGyro();
+			resetNavX();
 			m_driveStep++;
 			return false;
-		}else if (m_driveStep == 1) {
+		} else if (m_driveStep == 1) {
 			if (averageDistance >= (absoluteDistance - 18.0)) {
 				m_driveStep++;
 			}
@@ -166,15 +164,12 @@ public class Drivebase {
 		return false;
 	}
 
-	public void resetGyro() {
-		m_gyro.reset();
+	public double getGyroAngle() {
+		return m_navX.getAngle();
 	}
 
-	public void calibrateGyro() {
-		m_gyro.calibrate();
+	public void resetNavX() {
+		m_navX.reset();
 	}
-	
-	public double getGyroAngle() {
-		return m_gyro.getAngle();
-	}
+
 }

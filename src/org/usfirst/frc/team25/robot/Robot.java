@@ -1,7 +1,7 @@
 package org.usfirst.frc.team25.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Utility;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -12,7 +12,7 @@ public class Robot extends IterativeRobot {
 	private OI m_OI;
 	private Drivebase m_drives;
 	private Pickup m_pickup;
-	// private LEDs m_leds;
+	private Timer m_timer;
 
 	// ====== Auton Logic ======
 	private SendableChooser m_autonChooser;
@@ -24,15 +24,11 @@ public class Robot extends IterativeRobot {
 		m_OI = OI.getInstance();
 		m_drives = Drivebase.getInstance();
 		m_pickup = Pickup.getInstance();
-		// m_leds = LEDs.getInstance();
+		m_timer = new Timer();
 
 		// ===== RESETS =====
-		m_drives.resetGyro();
+		m_drives.resetNavX();
 		m_drives.resetEncoders();
-
-		// ===== LEDS ===== TODO: Get LEDs
-		// m_leds.setOn(true);
-		// m_leds.update();
 
 		// ===== AUTON STUFF =====
 		m_autonChooser = new SendableChooser();
@@ -62,16 +58,13 @@ public class Robot extends IterativeRobot {
 
 	public void disabledPeriodic() {
 		update();
-		if (Utility.getUserButton()) {
-			m_drives.calibrateGyro();
-		}
 	}
 
 	public void autonomousInit() {
 		m_drives.brakesOff();
 		m_autonController.resetStep();
 		m_drives.resetStep();
-		m_drives.resetGyro();
+		m_drives.resetNavX();
 		m_autonChosen = (int) SmartDashboard.getNumber("Choose Auton");
 	}
 
@@ -93,17 +86,22 @@ public class Robot extends IterativeRobot {
 		} else if (m_autonChosen == 8) {
 			m_autonController.portCullisGeneral();
 		}
-
-		// m_leds.flash(DriverStation.getInstance().getAlliance()); See Above
 	}
 
 	public void teleopInit() {
 		m_drives.brakesOff();
+		m_timer.start();
+		m_timer.reset();
 	}
 
 	public void teleopPeriodic() {
 		m_OI.enableTeleopControls();
 		update();
+		if (m_timer.get() > 115.0) {
+			for (int i = 0; i < 3; i++) {
+				System.out.println("********* TIME TO HANG!!!!! ***********");
+			}
+		}
 	}
 
 	public void testInit() {

@@ -36,7 +36,7 @@ public class AutonController {
 		if (m_step == 0) {
 			m_drives.resetEncoders();
 			m_drives.brakesOff();
-			m_drives.resetGyro();
+			m_drives.resetNavX();
 			m_timer.start();
 			m_timer.reset();
 			m_step++;
@@ -50,7 +50,7 @@ public class AutonController {
 			if (m_drives.driveStraight(60.0, 0.5) || m_timer.get() > 5.0) {
 				m_drives.setSpeed(0.0);
 				m_drives.resetEncoders();
-				m_drives.resetGyro();
+				m_drives.resetNavX();
 				m_timer.stop();
 				m_step++;
 			}
@@ -59,7 +59,7 @@ public class AutonController {
 			if (!m_pickup.goTo(Constants.PICKUP_PORT_CULLIS_HIGH, 0.75)) {
 				m_pickup.setArmSpeed(0.0, true);
 				m_drives.resetEncoders();
-				m_drives.resetGyro();
+				m_drives.resetNavX();
 				m_step++;
 			}
 		} else if (m_step == 4) {
@@ -80,7 +80,7 @@ public class AutonController {
 		if (m_step == 0) {
 			m_drives.resetEncoders();
 			m_drives.brakesOff();
-			m_drives.resetGyro();
+			m_drives.resetNavX();
 			m_step++;
 		} else if (m_step == 1) {
 			if (!m_pickup.goTo(Constants.PICKUP_PORT_CULLIS, 1.0)) {
@@ -91,7 +91,7 @@ public class AutonController {
 			if (m_drives.driveStraight(60.0, 0.5)) {
 				m_drives.setSpeed(0.0);
 				m_drives.resetEncoders();
-				m_drives.resetGyro();
+				m_drives.resetNavX();
 				m_step++;
 			}
 		} else if (m_step == 3) {
@@ -116,7 +116,7 @@ public class AutonController {
 			if (!m_pickup.goTo(Constants.PICKUP_ARM_DOWN, 1.0)) {
 				m_pickup.setArmSpeed(0.0, true);
 				m_drives.resetEncoders();
-				m_drives.resetGyro();
+				m_drives.resetNavX();
 				m_step++;
 			}
 		} else if (m_step == 7) {
@@ -138,7 +138,7 @@ public class AutonController {
 	public void teeterTotterSlotTwoAndScore() {
 		if (m_step == 0) {
 			m_drives.resetEncoders();
-			m_drives.resetGyro();
+			m_drives.resetNavX();
 			m_drives.brakesOff();
 			m_step++;
 		} else if (m_step == 1) {
@@ -156,7 +156,7 @@ public class AutonController {
 		} else if (m_step == 3) {
 			if (!m_pickup.goTo(Constants.PICKUP_RAMPS_LOW, 0.5) || m_timer.get() >= 3.0) {
 				m_pickup.setArmSpeed(0.0, true);
-				m_drives.resetGyro();
+				m_drives.resetNavX();
 				m_drives.resetEncoders();
 				m_timer.stop();
 				m_step++;
@@ -170,13 +170,13 @@ public class AutonController {
 			if (m_drives.driveStraight(210.0, 0.5)) {
 				m_drives.setSpeed(0.0);
 				m_pickup.setArmSpeed(0.0, true);
-				m_drives.resetGyro();
+				m_drives.resetNavX();
 				m_step++;
 			}
 		} else if (m_step == 5) {
 			if (m_drives.turnToAngle(63, 0.5)) {
 				m_drives.resetEncoders();
-				m_drives.resetGyro();
+				m_drives.resetNavX();
 				m_drives.setSpeed(0.0);
 				m_step++;
 			}
@@ -205,7 +205,7 @@ public class AutonController {
 	public void teeterTotterGeneral() {
 		if (m_step == 0) {
 			m_drives.resetEncoders();
-			m_drives.resetGyro();
+			m_drives.resetNavX();
 			m_drives.brakesOff();
 			m_step++;
 		} else if (m_step == 1) {
@@ -223,7 +223,7 @@ public class AutonController {
 		} else if (m_step == 3) {
 			if (!m_pickup.goTo(Constants.PICKUP_RAMPS_LOW, 0.5) || m_timer.get() >= 3.0) {
 				m_pickup.setArmSpeed(0.0, true);
-				m_drives.resetGyro();
+				m_drives.resetNavX();
 				m_drives.resetEncoders();
 				m_timer.stop();
 				m_step++;
@@ -237,7 +237,7 @@ public class AutonController {
 			if (m_drives.driveStraight(160.0, 0.5)) {
 				m_drives.setSpeed(0.0);
 				m_pickup.setArmSpeed(0.0, true);
-				m_drives.resetGyro();
+				m_drives.resetNavX();
 				m_step++;
 			}
 		} else {
@@ -253,7 +253,7 @@ public class AutonController {
 	public void generalCrossObstacle() {
 		if (m_step == 0) {
 			m_drives.resetEncoders();
-			m_drives.resetGyro();
+			m_drives.resetNavX();
 			m_drives.brakesOff();
 			m_step++;
 		} else if (m_step == 1) {
@@ -272,7 +272,7 @@ public class AutonController {
 	public void teeterTotterSlotFiveAndScore() {
 		if (m_step == 0) {
 			m_drives.resetEncoders();
-			m_drives.resetGyro();
+			m_drives.resetNavX();
 			m_drives.brakesOff();
 			m_step++;
 		} else if (m_step == 1) {
@@ -290,7 +290,7 @@ public class AutonController {
 		} else if (m_step == 3) {
 			if (!m_pickup.goTo(Constants.PICKUP_RAMPS_LOW, 0.5) || m_timer.get() >= 3.0) {
 				m_pickup.setArmSpeed(0.0, true);
-				m_drives.resetGyro();
+				m_drives.resetNavX();
 				m_drives.resetEncoders();
 				m_timer.stop();
 				m_step++;
@@ -304,13 +304,13 @@ public class AutonController {
 			if (m_drives.driveStraight(210.0, 0.5)) {
 				m_drives.setSpeed(0.0);
 				m_pickup.setArmSpeed(0.0, true);
-				m_drives.resetGyro();
+				m_drives.resetNavX();
 				m_step++;
 			}
 		} else if (m_step == 5) {
 			if (m_drives.turnToAngle(-73.0, 0.5)) {
 				m_drives.setSpeed(0.0);
-				m_drives.resetGyro();
+				m_drives.resetNavX();
 				m_drives.resetEncoders();
 				m_step++;
 			}
@@ -339,7 +339,7 @@ public class AutonController {
 
 		if (m_step == 0) {
 			m_drives.resetEncoders();
-			m_drives.resetGyro();
+			m_drives.resetNavX();
 			m_drives.brakesOff();
 			m_step++;
 		} else if (m_step == 1) {
@@ -350,7 +350,7 @@ public class AutonController {
 		} else if (m_step == 2) {
 			if (!m_pickup.goTo(0.783, 0.5)) {
 				m_pickup.setArmSpeed(0.0, true);
-				m_drives.resetGyro();
+				m_drives.resetNavX();
 				m_drives.resetEncoders();
 				m_step++;
 			}
@@ -363,26 +363,26 @@ public class AutonController {
 			if (m_drives.driveStraight(96.0, 0.5)) {
 				m_drives.setSpeed(0.0);
 				m_pickup.setArmSpeed(0.0, true);
-				m_drives.resetGyro();
+				m_drives.resetNavX();
 				m_step++;
 			}
 		} else if (m_step == 4) {
 			if (m_drives.turnToAngle(20.0, 0.5)) {
 				m_drives.setSpeed(0.0);
-				m_drives.resetGyro();
+				m_drives.resetNavX();
 				m_drives.resetEncoders();
 				m_step++;
 			}
 		} else if (m_step == 5) {
 			if (m_drives.driveStraight(120.0, 0.5)) {
 				m_drives.setSpeed(0.0);
-				m_drives.resetGyro();
+				m_drives.resetNavX();
 				m_step++;
 			}
 		} else if (m_step == 6) {
 			if (m_drives.turnToAngle(-85.0, 0.5)) {
 				m_drives.setSpeed(0.0);
-				m_drives.resetGyro();
+				m_drives.resetNavX();
 				m_drives.resetEncoders();
 				m_step++;
 			}
@@ -397,7 +397,7 @@ public class AutonController {
 		if (m_step == 0) {
 			m_drives.resetEncoders();
 			m_drives.brakesOff();
-			m_drives.resetGyro();
+			m_drives.resetNavX();
 			m_timer.start();
 			m_timer.reset();
 			m_step++;
@@ -410,14 +410,14 @@ public class AutonController {
 		} else if (m_step == 2) {
 			if (m_drives.driveStraight(227.0, 0.5)) {
 				m_drives.setSpeed(0.0);
-				m_drives.resetGyro();
+				m_drives.resetNavX();
 				m_step++;
 			}
 		} else if (m_step == 3) {
 			if (m_drives.turnToAngle(64, 0.5)) {
 				m_drives.setSpeed(0.0);
 				m_drives.resetEncoders();
-				m_drives.resetGyro();
+				m_drives.resetNavX();
 				m_step++;
 			}
 		} else if (m_step == 4) {

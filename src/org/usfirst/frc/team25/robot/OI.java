@@ -11,8 +11,6 @@ public class OI {
 	private final Pickup m_pickup;
 	private final Drivebase m_drives;
 	private final Hanger m_hanger;
-	// private final LEDs m_leds; // TODO: Get LEDs
-	// private final Relay m_horn; // TODO: Fix
 
 	// ===== Joysticks =====
 	private final Joystick m_rightStick;
@@ -54,7 +52,7 @@ public class OI {
 		// =========== RESET ===========
 		if (getRightButton(7)) {
 			m_drives.resetEncoders();
-			m_drives.resetGyro();
+			m_drives.resetNavX();
 		}
 
 		// =========== DRIVES ===========
