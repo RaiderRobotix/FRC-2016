@@ -51,6 +51,9 @@ public class Robot extends IterativeRobot {
 		System.out.println("Pickup Pot: " + m_pickup.getPot());
 		System.out.println("Gyro: " + m_drives.getGyroAngle());
 		System.out.println("Auton Chosen: " + SmartDashboard.getNumber("Choose Auton"));
+		System.out.println("NavX Compass Heading: " + m_drives.getNavXCompass());
+		System.out.println("Displacement \tX: " + m_drives.getDisplacementX() + "\n\tY: " + m_drives.getDisplacmentY()
+				+ "\n\tZ: " + m_drives.getDisplacementZ());
 	}
 
 	public void disabledInit() {

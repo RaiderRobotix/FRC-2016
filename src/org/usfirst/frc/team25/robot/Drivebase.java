@@ -3,6 +3,7 @@ package org.usfirst.frc.team25.robot;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.VictorSP;
 
@@ -21,6 +22,8 @@ public class Drivebase {
 	private AHRS m_navX;
 
 	private Drivebase() {
+		m_navX = new AHRS(Port.kMXP);
+
 		m_leftDrives = new VictorSP(Constants.LEFT_DRIVES_PWM);
 		m_rightDrives = new VictorSP(Constants.RIGHT_DRIVES_PWM);
 
@@ -170,6 +173,22 @@ public class Drivebase {
 
 	public void resetNavX() {
 		m_navX.reset();
+	}
+
+	public double getNavXCompass() {
+		return m_navX.getCompassHeading();
+	}
+
+	public double getDisplacementX() {
+		return m_navX.getDisplacementX();
+	}
+
+	public double getDisplacmentY() {
+		return m_navX.getDisplacementY();
+	}
+
+	public double getDisplacementZ() {
+		return m_navX.getDisplacementZ();
 	}
 
 }

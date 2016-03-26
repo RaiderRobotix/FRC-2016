@@ -28,8 +28,6 @@ public class OI {
 		m_drives = Drivebase.getInstance();
 		m_pickup = Pickup.getInstance();
 		m_hanger = Hanger.getInstance();
-		// m_leds = LEDs.getInstance();
-		// m_horn = new Relay(Constants.HORN_CHANNEL);
 
 		m_rightStick = new Joystick(Constants.RIGHT_JOYSTICK_PORT);
 		m_leftStick = new Joystick(Constants.LEFT_JOYSTICK_PORT);
@@ -72,7 +70,7 @@ public class OI {
 		if (getOperatorTrigger()) {
 			// If, POV down, override is true.
 			m_pickup.intake(getOperatorPOV() == 180);
-		} else if (getRightTrigger() || getOperatorButton(2)) {
+		} else if (getRightTrigger()) {
 			m_pickup.eject();
 		} else {
 			m_pickup.stopRollers();
@@ -93,10 +91,10 @@ public class OI {
 			m_pickupSequenceValue = Constants.PICKUP_RAMPS_HEIGHT;
 		}
 
-		if (getOperatorButton(3) || getOperatorButton(11)) {
+		if (getOperatorButton(3) || getOperatorButton(2)) {
 			// Run normally
 			m_pickupSequenceRunning = false;
-			m_pickup.setArmSpeed(getOperatorY(), getOperatorButton(11));
+			m_pickup.setArmSpeed(getOperatorY(), getOperatorButton(2));
 		} else if (!m_pickupSequenceRunning) {
 			// If let go of button, return to 0%
 			m_pickup.setArmSpeed(0.0, true);
@@ -107,8 +105,9 @@ public class OI {
 		}
 
 		// =========== HANGER ===========
-		if (m_hangerHasRan || m_pickup.getPot() <= (Constants.PICKUP_ARM_DOWN + 0.008) || getOperatorPOV() == 180) {
-			if (m_autoHang && !getOperatorButton(10) && !getOperatorButton(8)) {
+		if (m_hangerHasRan || m_pickup.getPot() <= (Constants.PICKUP_ARM_DOWN + 0.008) || getOperatorButton(2)) {
+			if (m_autoHang && !getOperatorButton(10) && !getOperatorButton(8) && !getOperatorButton(9)
+					&& !getOperatorButton(7)) {
 				// If you are hanging and not trying to move manually
 				if (m_hangTimer.get() >= 3.8) {
 					m_hanger.setSpeed(0.0);
@@ -119,7 +118,7 @@ public class OI {
 				} else {
 					m_hanger.setSpeed(1.0);
 				}
-			} else if (getOperatorButton(7)) {
+			} else if (getOperatorButton(11)) {
 				// Turn on Auto hang
 				m_hangerHasRan = true;
 				m_hangTimer.start();
@@ -133,7 +132,7 @@ public class OI {
 			} else if (getOperatorButton(8)) {
 				// Manual up
 				m_hangerHasRan = true;
-				m_hanger.setSpeed((getOperatorPOV() == 180) ? 0.1 : 1.0);
+				m_hanger.setSpeed((getOperatorButton(7)) ? 0.1 : 1.0);
 				m_autoHang = false;
 			} else if (getOperatorButton(10)) {
 				// Manual down
