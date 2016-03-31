@@ -23,7 +23,7 @@ public class OI {
 	private boolean m_hangerHasRan;
 	private Timer m_hangTimer;
 	private boolean m_autoHang;
-	private double m_pickupAutoValue;
+	private double m_pickupAutoSpeed;
 
 	private OI() {
 		m_drives = Drivebase.getInstance();
@@ -35,7 +35,7 @@ public class OI {
 		m_operatorStick = new Joystick(Constants.OPERATOR_JOYSTICK_PORT);
 
 		m_pickupSequenceRunning = false;
-		m_pickupAutoValue = 0.0;
+		m_pickupAutoSpeed = 0.0;
 		m_hangerHasRan = false;
 		m_autoHang = false;
 		m_hangTimer = new Timer();
@@ -82,17 +82,17 @@ public class OI {
 		if (getOperatorButton(6) && !getOperatorButton(4) && !getOperatorButton(5)) {
 			// Button 6, arm up.
 			m_pickupSequenceRunning = true;
-			m_pickupAutoValue = 1.0;
+			m_pickupAutoSpeed = 1.0;
 			m_pickupSequenceValue = Constants.PICKUP_ARM_UP;
 		} else if (getOperatorButton(4) && !getOperatorButton(6) && !getOperatorButton(5)) {
 			// Button 4, arm down.
 			m_pickupSequenceRunning = true;
-			m_pickupAutoValue = 0.8;
+			m_pickupAutoSpeed = 0.8;
 			m_pickupSequenceValue = Constants.PICKUP_ARM_DOWN - 0.003;
 		} else if (getOperatorButton(5) && !getOperatorButton(6) && !getOperatorButton(4)) {
 			// Button 5, port cullis height.
 			m_pickupSequenceRunning = true;
-			m_pickupAutoValue = 0.5;
+			m_pickupAutoSpeed = 0.5;
 			m_pickupSequenceValue = Constants.PICKUP_RAMPS_HEIGHT;
 		}
 
@@ -106,7 +106,7 @@ public class OI {
 		} else {
 			// Pickup Sequence Running
 
-			m_pickupSequenceRunning = m_pickup.goTo(m_pickupSequenceValue, m_pickupAutoValue);
+			m_pickupSequenceRunning = m_pickup.goTo(m_pickupSequenceValue, m_pickupAutoSpeed);
 		}
 
 		// =========== HANGER ===========
@@ -114,12 +114,13 @@ public class OI {
 			if (m_autoHang && !getOperatorButton(10) && !getOperatorButton(8) && !getOperatorButton(9)
 					&& !getOperatorButton(7)) {
 				// If you are hanging and not trying to move manually
-				if (m_hangTimer.get() >= 3.9) {
+				if (m_hangTimer.get() >= 3.7) {
 					m_hanger.setSpeed(0.0);
 					m_autoHang = false;
 					m_hangTimer.stop();
 					m_pickupSequenceRunning = true;
 					m_pickupSequenceValue = Constants.PICKUP_BACK_LIMIT;
+					m_pickupAutoSpeed = 1.0;
 				} else {
 					m_hanger.setSpeed(1.0);
 				}
@@ -132,12 +133,17 @@ public class OI {
 			} else if (getOperatorButton(9)) {
 				// Slow down
 				m_hangerHasRan = true;
-				m_hanger.setSpeed(-0.1);
+				m_hanger.setSpeed(-Constants.HANGER_SLOW_SPEED);
 				m_autoHang = false;
 			} else if (getOperatorButton(8)) {
 				// Manual up
 				m_hangerHasRan = true;
-				m_hanger.setSpeed((getOperatorButton(7)) ? 0.1 : 1.0);
+				m_hanger.setSpeed(1.0);
+				m_autoHang = false;
+			} else if (getOperatorButton(7)) {
+				// Slow up
+				m_hangerHasRan = true;
+				m_hanger.setSpeed(Constants.HANGER_SLOW_SPEED);
 				m_autoHang = false;
 			} else if (getOperatorButton(10)) {
 				// Manual down

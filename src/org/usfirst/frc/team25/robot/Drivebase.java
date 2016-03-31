@@ -202,18 +202,6 @@ public class Drivebase {
 		return m_navX.getCompassHeading();
 	}
 
-	public double getDisplacementX() {
-		return m_navX.getDisplacementX();
-	}
-
-	public double getDisplacmentY() {
-		return m_navX.getDisplacementY();
-	}
-
-	public double getDisplacementZ() {
-		return m_navX.getDisplacementZ();
-	}
-
 	public double getSonicDistance() {
 		return m_sonic.getValue() / Constants.SONIC_CONSTANT;
 	}

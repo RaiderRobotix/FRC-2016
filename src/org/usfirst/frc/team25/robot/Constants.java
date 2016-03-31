@@ -7,6 +7,7 @@ public abstract class Constants {
 	public static final double PICKUP_CURRENT_LIMIT = 35.0;
 	public static final int I2C_DEVICE_ADDRESS = 8;
 	public static final double SONIC_CONSTANT = 7.8;
+	public static final double HANGER_SLOW_SPEED = 0.2;
 
 	// PWMs (Control)
 	public static final int PICKUP_ROLLERS_PWM = 5;
@@ -46,7 +47,7 @@ public abstract class Constants {
 
 	// Pickup Positions
 	public static final double PICKUP_BACK_LIMIT = 0.9133;
-	public static final double PICKUP_ARM_UP = 0.8473;
+	public static final double PICKUP_ARM_UP = 0.8689;
 	public static final double PICKUP_ARM_DOWN = 0.4397;
 	public static final double PICKUP_RAMPS_HEIGHT = 0.5948;
 	public static final double PICKUP_RAMPS_LOW = 0.4632;
