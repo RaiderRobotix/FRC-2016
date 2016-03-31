@@ -30,17 +30,18 @@ public class Robot extends IterativeRobot {
 		m_drives.resetNavX();
 		m_drives.resetEncoders();
 
-		// ===== AUTON STUFF =====
+		// ===== AUTON STUFF ===== TODO: Fix Autons
 		m_autonChooser = new SendableChooser();
 		m_autonChooser.addObject("0: Do Nothing (Default)", 0);
 		m_autonChooser.addObject("1: Low Bar And Score", 1);
-		m_autonChooser.addObject("2: Slot 2 Port Cullis and Score", 2);
+		//m_autonChooser.addObject("2: Slot 2 Port Cullis and Score", 2);
 		m_autonChooser.addObject("3: Slot 2 Teeter Totter and Score", 3);
-		m_autonChooser.addObject("4: Slot 4 Teeter Totter and Score", 4);
-		m_autonChooser.addObject("5: Slot 5 Teeter Totter and Score", 5);
-		m_autonChooser.addObject("6: General Cross Ramps", 6);
-		m_autonChooser.addObject("7: General Cross Obstacle", 7);
-		m_autonChooser.addObject("8: Port Cullis General", 8);
+		//m_autonChooser.addObject("4: Slot 4 Teeter Totter and Score", 4);
+		//m_autonChooser.addObject("5: Slot 5 Teeter Totter and Score", 5);
+		//m_autonChooser.addObject("6: General Cross Ramps", 6);
+		m_autonChooser.addObject("7: Port Cullis General", 7);
+		m_autonChooser.addObject("8: Slot Two Path", 8);
+		m_autonChooser.addObject("9: Cross Obstacle", 9);
 		SmartDashboard.putData("Auton Key", m_autonChooser);
 		SmartDashboard.putNumber("Choose Auton", 0);
 	}
@@ -50,10 +51,11 @@ public class Robot extends IterativeRobot {
 		System.out.println("Right Encoder: " + m_drives.getRightEncoderDistance());
 		System.out.println("Pickup Pot: " + m_pickup.getPot());
 		System.out.println("Gyro: " + m_drives.getGyroAngle());
+		System.out.println("Roll: " + m_drives.getGyroRoll());
 		System.out.println("Auton Chosen: " + SmartDashboard.getNumber("Choose Auton"));
 		System.out.println("NavX Compass Heading: " + m_drives.getNavXCompass());
-		System.out.println("Displacement \tX: " + m_drives.getDisplacementX() + "\n\tY: " + m_drives.getDisplacmentY()
-				+ "\n\tZ: " + m_drives.getDisplacementZ());
+		System.out.println("Ultrasonic: " + m_drives.getSonicDistance());
+
 	}
 
 	public void disabledInit() {
@@ -71,6 +73,7 @@ public class Robot extends IterativeRobot {
 		m_autonChosen = (int) SmartDashboard.getNumber("Choose Auton");
 	}
 
+	@SuppressWarnings("deprecation")
 	public void autonomousPeriodic() {
 		if (m_autonChosen == 1) {
 			m_autonController.lowBarAndScore();
@@ -84,11 +87,14 @@ public class Robot extends IterativeRobot {
 			m_autonController.teeterTotterSlotFiveAndScore();
 		} else if (m_autonChosen == 6) {
 			m_autonController.teeterTotterGeneral();
-		} else if (m_autonChosen == 7) {
-			m_autonController.generalCrossObstacle();
 		} else if (m_autonChosen == 8) {
 			m_autonController.portCullisGeneral();
+		} else if (m_autonChosen == 9) {
+			m_autonController.slotTwoPath();
+		} else if (m_autonChosen == 10) {
+			m_autonController.goOverObstacle(0.9);
 		}
+		update();
 	}
 
 	public void teleopInit() {

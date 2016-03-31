@@ -6,6 +6,7 @@ public abstract class Constants {
 	public static final double DRIVE_STRAIGHT_TOLERANCE = 1.0; // (In Degrees)
 	public static final double PICKUP_CURRENT_LIMIT = 35.0;
 	public static final int I2C_DEVICE_ADDRESS = 8;
+	public static final double SONIC_CONSTANT = 7.8;
 
 	// PWMs (Control)
 	public static final int PICKUP_ROLLERS_PWM = 5;
@@ -35,7 +36,7 @@ public abstract class Constants {
 
 	// Analog Sensors
 	public static final int PICKUP_POT_PWM = 0;
-	public static final int GYRO_PWM = 1;
+	public static final int ULTRASONIC_PWM = 3;
 
 	// Joysticks
 	public static final int LEFT_JOYSTICK_PORT = 0;
@@ -44,11 +45,9 @@ public abstract class Constants {
 	public static final double DEADBAND = 0.2;
 
 	// Pickup Positions
-	public static final double PICKUP_BACK_LIMIT = 0.901;
-	public static final double PICKUP_ARM_UP = 0.879;
-	public static final double PICKUP_ARM_DOWN = 0.4415;
-	public static final double PICKUP_PORT_CULLIS = PICKUP_ARM_DOWN;
-	public static final double PICKUP_PORT_CULLIS_HIGH = 0.5668; // Todo: Get
-	public static final double PICKUP_RAMPS_HEIGHT = 0.5355; // TODO: Get
-	public static final double PICKUP_RAMPS_LOW = 0.4995; // TODO: Get
+	public static final double PICKUP_BACK_LIMIT = 0.9133;
+	public static final double PICKUP_ARM_UP = 0.8473;
+	public static final double PICKUP_ARM_DOWN = 0.4397;
+	public static final double PICKUP_RAMPS_HEIGHT = 0.5948;
+	public static final double PICKUP_RAMPS_LOW = 0.4632;
 }

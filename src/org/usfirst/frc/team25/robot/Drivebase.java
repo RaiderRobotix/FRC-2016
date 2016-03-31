@@ -2,6 +2,7 @@ package org.usfirst.frc.team25.robot;
 
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.Servo;
@@ -20,9 +21,15 @@ public class Drivebase {
 	private boolean m_brakesOn;
 	private int m_driveStep;
 	private AHRS m_navX;
+	private AnalogInput m_sonic;
+	private double m_headingYaw;
+	private double m_headingRoll;
 
 	private Drivebase() {
 		m_navX = new AHRS(Port.kMXP);
+		m_sonic = new AnalogInput(Constants.ULTRASONIC_PWM);
+		m_headingYaw = 0.0;
+		m_headingRoll = 0.0;
 
 		m_leftDrives = new VictorSP(Constants.LEFT_DRIVES_PWM);
 		m_rightDrives = new VictorSP(Constants.RIGHT_DRIVES_PWM);
@@ -167,12 +174,28 @@ public class Drivebase {
 		return false;
 	}
 
+	public boolean sonicDriveStraight(double distance, double speed) {
+		resetEncoders();
+		if (getSonicDistance() <= distance) {
+			setSpeed(0.0);
+			return true;
+		}
+		driveStraight(100.0, speed);
+		return false;
+	}
+
 	public double getGyroAngle() {
-		return m_navX.getAngle();
+		return m_navX.getAngle() - m_headingYaw;
+	}
+
+	public double getGyroRoll() {
+		return m_navX.getRoll() - m_headingRoll;
 	}
 
 	public void resetNavX() {
-		m_navX.reset();
+		// m_navX.reset();
+		m_headingYaw = m_navX.getAngle();
+		m_headingRoll = m_navX.getRoll();
 	}
 
 	public double getNavXCompass() {
@@ -189,6 +212,10 @@ public class Drivebase {
 
 	public double getDisplacementZ() {
 		return m_navX.getDisplacementZ();
+	}
+
+	public double getSonicDistance() {
+		return m_sonic.getValue() / Constants.SONIC_CONSTANT;
 	}
 
 }
