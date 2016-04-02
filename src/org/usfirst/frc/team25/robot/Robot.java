@@ -34,27 +34,22 @@ public class Robot extends IterativeRobot {
 		m_autonChooser = new SendableChooser();
 		m_autonChooser.addObject("0: Do Nothing (Default)", 0);
 		m_autonChooser.addObject("1: Low Bar And Score", 1);
-		//m_autonChooser.addObject("2: Slot 2 Port Cullis and Score", 2);
-		m_autonChooser.addObject("3: Slot 2 Teeter Totter and Score", 3);
-		//m_autonChooser.addObject("4: Slot 4 Teeter Totter and Score", 4);
-		//m_autonChooser.addObject("5: Slot 5 Teeter Totter and Score", 5);
-		//m_autonChooser.addObject("6: General Cross Ramps", 6);
-		m_autonChooser.addObject("7: Port Cullis General", 7);
-		m_autonChooser.addObject("8: Slot Two Path", 8);
-		m_autonChooser.addObject("9: Cross Obstacle", 9);
+		m_autonChooser.addObject("2: Teeter Totter Model", 2);
+		m_autonChooser.addObject("3: Slot Two Path", 3);
+		m_autonChooser.addObject("4: Go Over Obstacle (Special)", 4);
 		SmartDashboard.putData("Auton Key", m_autonChooser);
 		SmartDashboard.putNumber("Choose Auton", 0);
 	}
 
 	private void update() {
-		//System.out.println("Left Encoder: " + m_drives.getLeftEncoderDistance());
-		//System.out.println("Right Encoder: " + m_drives.getRightEncoderDistance());
+		System.out.println("Left Encoder: " + m_drives.getLeftEncoderDistance());
+		System.out.println("Right Encoder: " + m_drives.getRightEncoderDistance());
 		System.out.println("Pickup Pot: " + m_pickup.getPot());
-		//System.out.println("Gyro: " + m_drives.getGyroAngle());
-		//System.out.println("Roll: " + m_drives.getGyroRoll());
-		//System.out.println("Auton Chosen: " + SmartDashboard.getNumber("Choose Auton"));
-		//System.out.println("NavX Compass Heading: " + m_drives.getNavXCompass());
-		//System.out.println("Ultrasonic: " + m_drives.getSonicDistance());
+		System.out.println("Gyro: " + m_drives.getGyroAngle());
+		System.out.println("Roll: " + m_drives.getGyroRoll());
+		System.out.println("Auton Chosen: " + SmartDashboard.getNumber("Choose Auton"));
+		System.out.println("NavX Compass Heading: " + m_drives.getNavXCompass());
+		System.out.println("Ultrasonic: " + m_drives.getSonicDistance());
 
 	}
 
@@ -78,20 +73,10 @@ public class Robot extends IterativeRobot {
 		if (m_autonChosen == 1) {
 			m_autonController.lowBarAndScore();
 		} else if (m_autonChosen == 2) {
-			m_autonController.portCullisSlotTwoAndScore();
-		} else if (m_autonChosen == 3) {
 			m_autonController.teeterTotterSlotTwoAndScore();
-		} else if (m_autonChosen == 4) {
-			m_autonController.teeterTotterSlotFourAndScore();
-		} else if (m_autonChosen == 5) {
-			m_autonController.teeterTotterSlotFiveAndScore();
-		} else if (m_autonChosen == 6) {
-			m_autonController.teeterTotterGeneral();
-		} else if (m_autonChosen == 8) {
-			m_autonController.portCullisGeneral();
-		} else if (m_autonChosen == 9) {
+		} else if (m_autonChosen == 3) {
 			m_autonController.slotTwoPath();
-		} else if (m_autonChosen == 10) {
+		} else if (m_autonChosen == 4) {
 			m_autonController.goOverObstacle(0.9);
 		}
 		update();
