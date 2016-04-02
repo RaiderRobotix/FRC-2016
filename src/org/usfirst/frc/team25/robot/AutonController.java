@@ -32,7 +32,8 @@ public class AutonController {
 	/**
 	 * Not finished yet.
 	 * 
-	 * @param speed The speed to run the auton with
+	 * @param speed
+	 *            The speed to run the auton with
 	 */
 	public void goOverObstacle(double speed) {
 		if (m_step == 0) {
@@ -108,13 +109,12 @@ public class AutonController {
 		}
 	}
 
-	
 	/**
 	 * @deprecated
 	 * 
-	 * This is the model, but still needs fixing.
+	 * 			This is the model, but still needs fixing.
 	 * 
-	 * Teeter Totter- Slot 2 & Score
+	 *             Teeter Totter- Slot 2 & Score
 	 */
 	public void teeterTotterSlotTwoAndScore() {
 		if (m_step == 0) {
@@ -180,9 +180,6 @@ public class AutonController {
 
 	}
 
-	
-
-	
 	/**
 	 * The working low bar auton.
 	 */
@@ -201,7 +198,7 @@ public class AutonController {
 				m_step++;
 			}
 		} else if (m_step == 2) {
-			if (m_drives.driveStraight(227.0, 0.5)) {
+			if (m_drives.driveStraight(233.0, 0.5)) {
 				m_drives.setSpeed(0.0);
 				m_drives.resetNavX();
 				m_step++;

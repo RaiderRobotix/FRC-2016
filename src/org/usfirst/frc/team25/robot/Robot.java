@@ -50,7 +50,12 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("Auton Chosen", SmartDashboard.getNumber("Choose Auton"));
 		SmartDashboard.putNumber("NavX Compass Heading", m_drives.getNavXCompass());
 		SmartDashboard.putNumber("Ultrasonic", m_drives.getSonicDistance());
-		SmartDashboard.putString("Time To Hang", (m_timer.get() > 115.0 ? "**TIME TO HANG**" : ""));
+		if (m_timer.get() > 115.0) {
+			SmartDashboard.putString("Time To Hang",
+					((m_timer.get() > 115.0 && (m_timer.get() % 1.0) < 0.5) ? "**TIME TO HANG**" : ""));
+		} else {
+			SmartDashboard.putString("Time To Hang", Double.toString(115.0 - m_timer.get()));
+		}
 	}
 
 	public void disabledInit() {
