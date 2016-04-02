@@ -42,18 +42,20 @@ public class Robot extends IterativeRobot {
 	}
 
 	private void update() {
-		System.out.println("Left Encoder: " + m_drives.getLeftEncoderDistance());
-		System.out.println("Right Encoder: " + m_drives.getRightEncoderDistance());
-		System.out.println("Pickup Pot: " + m_pickup.getPot());
-		System.out.println("Gyro: " + m_drives.getGyroAngle());
-		System.out.println("Roll: " + m_drives.getGyroRoll());
-		System.out.println("Auton Chosen: " + SmartDashboard.getNumber("Choose Auton"));
-		System.out.println("NavX Compass Heading: " + m_drives.getNavXCompass());
-		System.out.println("Ultrasonic: " + m_drives.getSonicDistance());
-
+		SmartDashboard.putNumber("Left Encoder", m_drives.getLeftEncoderDistance());
+		SmartDashboard.putNumber("Right Encoder", m_drives.getRightEncoderDistance());
+		SmartDashboard.putNumber("Pickup Pot", m_pickup.getPot());
+		SmartDashboard.putNumber("Gyro", m_drives.getGyroAngle());
+		SmartDashboard.putNumber("Roll", m_drives.getGyroRoll());
+		SmartDashboard.putNumber("Auton Chosen", SmartDashboard.getNumber("Choose Auton"));
+		SmartDashboard.putNumber("NavX Compass Heading", m_drives.getNavXCompass());
+		SmartDashboard.putNumber("Ultrasonic", m_drives.getSonicDistance());
+		SmartDashboard.putString("Time To Hang", (m_timer.get() > 115.0 ? "**TIME TO HANG**" : ""));
 	}
 
 	public void disabledInit() {
+		m_timer.stop();
+		m_timer.reset();
 	}
 
 	public void disabledPeriodic() {
@@ -91,11 +93,6 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		m_OI.enableTeleopControls();
 		update();
-		if (m_timer.get() > 115.0) {
-			for (int i = 0; i < 3; i++) {
-				System.out.println("********* TIME TO HANG!!!!! ***********");
-			}
-		}
 	}
 
 	public void testInit() {

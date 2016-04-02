@@ -63,11 +63,6 @@ public class AutonController {
 			} else {
 				m_drives.driveStraight(1000.0, speed);
 			}
-		} else if (m_step == 4) {
-			if (m_drives.sonicDriveStraight(50.0, speed)) {
-				m_drives.setSpeed(0.0);
-				m_step++;
-			}
 		} else {
 			m_drives.setSpeed(0.0);
 		}
