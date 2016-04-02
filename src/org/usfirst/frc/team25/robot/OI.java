@@ -93,7 +93,7 @@ public class OI {
 			// Button 5, port cullis height.
 			m_pickupSequenceRunning = true;
 			m_pickupAutoSpeed = 0.5;
-			m_pickupSequenceValue = Constants.PICKUP_RAMPS_HEIGHT;
+			m_pickupSequenceValue = Constants.PICKUP_PORT_CULLIS;
 		}
 
 		if (getOperatorButton(3) || getOperatorButton(2)) {
@@ -114,7 +114,7 @@ public class OI {
 			if (m_autoHang && !getOperatorButton(10) && !getOperatorButton(8) && !getOperatorButton(9)
 					&& !getOperatorButton(7)) {
 				// If you are hanging and not trying to move manually
-				if (m_hangTimer.get() >= 3.7) {
+				if (m_hangTimer.get() >= 3.5) {
 					m_hanger.setSpeed(0.0);
 					m_autoHang = false;
 					m_hangTimer.stop();

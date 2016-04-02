@@ -49,6 +49,7 @@ public abstract class Constants {
 	public static final double PICKUP_BACK_LIMIT = 0.9133;
 	public static final double PICKUP_ARM_UP = 0.8689;
 	public static final double PICKUP_ARM_DOWN = 0.4397;
-	public static final double PICKUP_RAMPS_HEIGHT = 0.5948;
-	public static final double PICKUP_RAMPS_LOW = 0.4632;
+	public static final double PICKUP_RAMPS_HEIGHT = 0.5654;
+	public static final double PICKUP_RAMPS_LOW = 0.4585;
+	public static final double PICKUP_PORT_CULLIS = 0.451;
 }

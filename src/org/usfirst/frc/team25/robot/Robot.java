@@ -47,14 +47,14 @@ public class Robot extends IterativeRobot {
 	}
 
 	private void update() {
-		System.out.println("Left Encoder: " + m_drives.getLeftEncoderDistance());
-		System.out.println("Right Encoder: " + m_drives.getRightEncoderDistance());
+		//System.out.println("Left Encoder: " + m_drives.getLeftEncoderDistance());
+		//System.out.println("Right Encoder: " + m_drives.getRightEncoderDistance());
 		System.out.println("Pickup Pot: " + m_pickup.getPot());
-		System.out.println("Gyro: " + m_drives.getGyroAngle());
-		System.out.println("Roll: " + m_drives.getGyroRoll());
-		System.out.println("Auton Chosen: " + SmartDashboard.getNumber("Choose Auton"));
-		System.out.println("NavX Compass Heading: " + m_drives.getNavXCompass());
-		System.out.println("Ultrasonic: " + m_drives.getSonicDistance());
+		//System.out.println("Gyro: " + m_drives.getGyroAngle());
+		//System.out.println("Roll: " + m_drives.getGyroRoll());
+		//System.out.println("Auton Chosen: " + SmartDashboard.getNumber("Choose Auton"));
+		//System.out.println("NavX Compass Heading: " + m_drives.getNavXCompass());
+		//System.out.println("Ultrasonic: " + m_drives.getSonicDistance());
 
 	}
 
