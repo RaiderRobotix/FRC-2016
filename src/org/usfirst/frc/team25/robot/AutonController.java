@@ -211,14 +211,120 @@ public class AutonController {
 				m_step++;
 			}
 		} else if (m_step == 4) {
-			if (m_drives.driveStraight(73.0, 0.5)) {
+			if (m_drives.driveStraight(79.0, 0.5)) {
 				m_drives.setSpeed(0.0);
 				m_pickup.eject();
 				m_drives.brakesOff();
+				m_timer.start();
+				m_timer.reset();
+				m_step++;
+			}
+		} else if (m_step == 5) {
+			m_pickup.eject();
+			if (m_timer.get() > 0.75) {
+				m_timer.stop();
 				m_step++;
 			}
 		} else {
+			m_pickup.intake(false);
+			if (m_pickup.lineBroken()) {
+				m_timer.start();
+				m_timer.reset();
+				m_step--;
+			}
+		}
+	}
+
+	/**
+	 * The working low bar auton Special.
+	 */
+	public void lowBarAndScoreSpecial() {
+		if (m_step == 0) {
+			m_drives.resetEncoders();
+			m_drives.brakesOff();
+			m_drives.resetNavX();
+			m_timer.start();
+			m_timer.reset();
+			m_step++;
+		} else if (m_step == 1) {
+			if (!m_pickup.goTo(Constants.PICKUP_ARM_DOWN + 0.002, 1.0) || m_timer.get() > 4.0) {
+				m_pickup.setArmSpeed(0.0, true);
+				m_timer.stop();
+				m_step++;
+			}
+		} else if (m_step == 2) {
+			if (m_drives.driveStraight(233.0, 0.5)) {
+				m_drives.setSpeed(0.0);
+				m_drives.resetNavX();
+				m_pickup.setArmSpeed(0.0, true);
+				m_step++;
+			}
+			if (m_drives.getLeftEncoderDistance() > 75.0) {
+				if (!m_pickup.goTo(Constants.PICKUP_ARM_UP, 1.0)) {
+					m_pickup.setArmSpeed(0.0, true);
+				}
+			}
+		} else if (m_step == 3) {
+			if (m_drives.turnToAngle(64, 0.5)) {
+				m_drives.setSpeed(0.0);
+				m_drives.resetEncoders();
+				m_drives.resetNavX();
+				m_step++;
+			}
+		} else if (m_step == 4) {
+			if (!m_pickup.goTo(Constants.PICKUP_ARM_DOWN, 0.8)) {
+				m_pickup.setArmSpeed(0.0, true);
+				m_drives.resetEncoders();
+				m_drives.resetNavX();
+				m_step++;
+			}
+		} else if (m_step == 5) {
+			if (m_drives.driveStraight(79.0, 0.5)) {
+				m_drives.setSpeed(0.0);
+				m_pickup.eject();
+				m_drives.brakesOff();
+				m_timer.start();
+				m_timer.reset();
+				m_step++;
+			}
+		} else if (m_step == 6) {
 			m_pickup.eject();
+			if (m_timer.get() > 0.75) {
+				m_timer.stop();
+				m_step++;
+			}
+		} else {
+			m_pickup.intake(false);
+			if (m_pickup.lineBroken()) {
+				m_timer.start();
+				m_timer.reset();
+				m_step--;
+			}
+		}
+	}
+
+	/**
+	 * Go over obstacle and dont score
+	 */
+	public void goOverObstacleNoScore() {
+		if (m_step == 0) {
+			m_drives.brakesOff();
+			m_drives.resetEncoders();
+			m_drives.resetNavX();
+			m_timer.start();
+			m_timer.reset();
+			m_step++;
+		} else if (m_step == 1) {
+			if (m_timer.get() < 5.0) {
+				m_drives.driveStraight(1000.0, 0.8);
+			} else if (m_timer.get() < 10.0) {
+				m_drives.sonicDriveStraight(48.0, 0.8);
+			} else {
+				m_timer.stop();
+				m_drives.setSpeed(0.0);
+				m_step++;
+			}
+		} else {
 			m_drives.setSpeed(0.0);
 		}
 	}

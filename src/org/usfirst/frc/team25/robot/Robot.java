@@ -32,11 +32,13 @@ public class Robot extends IterativeRobot {
 
 		// ===== AUTON STUFF ===== TODO: Fix Autons
 		m_autonChooser = new SendableChooser();
-		m_autonChooser.addObject("0: Do Nothing (Default)", 0);
-		m_autonChooser.addObject("1: Low Bar And Score", 1);
-		m_autonChooser.addObject("2: Teeter Totter Model", 2);
-		m_autonChooser.addObject("3: Slot Two Path", 3);
-		m_autonChooser.addObject("4: Go Over Obstacle (Special)", 4);
+		m_autonChooser.addObject("-1: Do Nothing", -1);
+		m_autonChooser.addObject("0: Low Bar And Score (Default)", 0);
+		m_autonChooser.addObject("1: Teeter Totter Model", 1);
+		m_autonChooser.addObject("2: Slot Two Path", 2);
+		m_autonChooser.addObject("3: Go Over Obstacle (Special)", 3);
+		m_autonChooser.addObject("4: Special Low Bar", 4);
+		m_autonChooser.addObject("5: Go Over Obstacle- No Score", 5);
 		SmartDashboard.putData("Auton Key", m_autonChooser);
 		SmartDashboard.putNumber("Choose Auton", 0);
 	}
@@ -77,14 +79,18 @@ public class Robot extends IterativeRobot {
 
 	@SuppressWarnings("deprecation")
 	public void autonomousPeriodic() {
-		if (m_autonChosen == 1) {
+		if (m_autonChosen == 0) {
 			m_autonController.lowBarAndScore();
-		} else if (m_autonChosen == 2) {
+		} else if (m_autonChosen == 1) {
 			m_autonController.teeterTotterSlotTwoAndScore();
-		} else if (m_autonChosen == 3) {
+		} else if (m_autonChosen == 2) {
 			m_autonController.slotTwoPath();
-		} else if (m_autonChosen == 4) {
+		} else if (m_autonChosen == 3) {
 			m_autonController.goOverObstacle(0.9);
+		} else if (m_autonChosen == 4) {
+			m_autonController.lowBarAndScoreSpecial();
+		} else if (m_autonChosen == 5) {
+			m_autonController.goOverObstacleNoScore();
 		}
 		update();
 	}
