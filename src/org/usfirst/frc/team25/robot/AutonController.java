@@ -1,5 +1,6 @@
 package org.usfirst.frc.team25.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
 
 public class AutonController {
@@ -10,10 +11,12 @@ public class AutonController {
 	private final Drivebase m_drives;
 	private final Pickup m_pickup;
 	private final Timer m_timer;
+	private final Joystick m_switchBox;
 
 	private AutonController() {
 		m_drives = Drivebase.getInstance();
 		m_pickup = Pickup.getInstance();
+		m_switchBox = new Joystick(3);
 		m_timer = new Timer();
 		m_step = 0;
 	}
@@ -27,6 +30,29 @@ public class AutonController {
 
 	public void resetStep() {
 		m_step = 0;
+	}
+
+	public int getAutonChosen() {
+		int r = 0;
+		if (m_switchBox.getRawButton(5)) {
+			r += 1;
+		}
+		if (m_switchBox.getRawButton(12)) {
+			r += 2;
+		}
+		if (m_switchBox.getRawButton(7)) {
+			r += 3;
+		}
+		if (m_switchBox.getRawButton(11)) {
+			r += 4;
+		}
+		if (m_switchBox.getRawButton(6)) {
+			r += 5;
+		}
+		if (m_switchBox.getRawButton(8)) {
+			r += 6;
+		}
+		return r;
 	}
 
 	/**
@@ -192,13 +218,13 @@ public class AutonController {
 			m_timer.reset();
 			m_step++;
 		} else if (m_step == 1) {
-			if (!m_pickup.goTo(Constants.PICKUP_ARM_DOWN + 0.002, 1.0) || m_timer.get() > 4.0) {
+			if (!m_pickup.goTo(Constants.PICKUP_ARM_DOWN + 0.002, 1.0) || m_timer.get() > 3.0) {
 				m_pickup.setArmSpeed(0.0, true);
 				m_timer.stop();
 				m_step++;
 			}
 		} else if (m_step == 2) {
-			if (m_drives.driveStraight(233.0, 0.5)) {
+			if (m_drives.driveStraight(233.0, 0.65)) {
 				m_drives.setSpeed(0.0);
 				m_drives.resetNavX();
 				m_step++;
@@ -211,7 +237,7 @@ public class AutonController {
 				m_step++;
 			}
 		} else if (m_step == 4) {
-			if (m_drives.driveStraight(79.0, 0.5)) {
+			if (m_drives.driveStraight(79.0, 0.65)) {
 				m_drives.setSpeed(0.0);
 				m_pickup.eject();
 				m_drives.brakesOff();
@@ -221,7 +247,7 @@ public class AutonController {
 			}
 		} else if (m_step == 5) {
 			m_pickup.eject();
-			if (m_timer.get() > 0.75) {
+			if (m_timer.get() > 1.0) {
 				m_timer.stop();
 				m_step++;
 			}
@@ -247,7 +273,7 @@ public class AutonController {
 			m_timer.reset();
 			m_step++;
 		} else if (m_step == 1) {
-			if (!m_pickup.goTo(Constants.PICKUP_ARM_DOWN + 0.002, 1.0) || m_timer.get() > 4.0) {
+			if (!m_pickup.goTo(Constants.PICKUP_ARM_DOWN + 0.002, 1.0) || m_timer.get() > 3.0) {
 				m_pickup.setArmSpeed(0.0, true);
 				m_timer.stop();
 				m_step++;
@@ -289,7 +315,7 @@ public class AutonController {
 			}
 		} else if (m_step == 6) {
 			m_pickup.eject();
-			if (m_timer.get() > 0.75) {
+			if (m_timer.get() > 1.0) {
 				m_timer.stop();
 				m_step++;
 			}

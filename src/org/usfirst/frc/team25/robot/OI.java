@@ -11,6 +11,7 @@ public class OI {
 	private final Pickup m_pickup;
 	private final Drivebase m_drives;
 	private final Hanger m_hanger;
+	private final LEDs m_leds;
 
 	// ===== Joysticks =====
 	private final Joystick m_rightStick;
@@ -24,11 +25,13 @@ public class OI {
 	private Timer m_hangTimer;
 	private boolean m_autoHang;
 	private double m_pickupAutoSpeed;
+	private int m_ledSequence;
 
 	private OI() {
 		m_drives = Drivebase.getInstance();
 		m_pickup = Pickup.getInstance();
 		m_hanger = Hanger.getInstance();
+		m_leds = LEDs.getInstance();
 
 		m_rightStick = new Joystick(Constants.RIGHT_JOYSTICK_PORT);
 		m_leftStick = new Joystick(Constants.LEFT_JOYSTICK_PORT);
@@ -38,6 +41,7 @@ public class OI {
 		m_pickupAutoSpeed = 0.0;
 		m_hangerHasRan = false;
 		m_autoHang = false;
+		m_ledSequence = 0;
 		m_hangTimer = new Timer();
 	}
 
@@ -156,6 +160,16 @@ public class OI {
 		} else {
 			m_hanger.setSpeed(0.0);
 		}
+		
+		// =========== LEDS ===========
+		if(m_hangerHasRan) {
+			m_ledSequence = 3;
+		} else if (m_pickup.lineBroken()) {
+			m_ledSequence = 2;
+		} else {
+			m_ledSequence = 0;
+		}
+		m_leds.update(m_ledSequence);
 	}
 
 	private double getLeftY() {

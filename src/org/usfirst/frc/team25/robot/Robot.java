@@ -12,6 +12,7 @@ public class Robot extends IterativeRobot {
 	private OI m_OI;
 	private Drivebase m_drives;
 	private Pickup m_pickup;
+	private LEDs m_leds;
 	private Timer m_timer;
 
 	// ====== Auton Logic ======
@@ -24,6 +25,7 @@ public class Robot extends IterativeRobot {
 		m_OI = OI.getInstance();
 		m_drives = Drivebase.getInstance();
 		m_pickup = Pickup.getInstance();
+		m_leds = LEDs.getInstance();
 		m_timer = new Timer();
 
 		// ===== RESETS =====
@@ -40,7 +42,6 @@ public class Robot extends IterativeRobot {
 		m_autonChooser.addObject("4: Special Low Bar", 4);
 		m_autonChooser.addObject("5: Go Over Obstacle- No Score", 5);
 		SmartDashboard.putData("Auton Key", m_autonChooser);
-		SmartDashboard.putNumber("Choose Auton", 0);
 	}
 
 	private void update() {
@@ -58,11 +59,17 @@ public class Robot extends IterativeRobot {
 		} else {
 			SmartDashboard.putString("Time To Hang", Double.toString(115.0 - m_timer.get()));
 		}
+		System.out.println(SmartDashboard.getString("Time To Hang"));
+		if (this.isDisabled() || this.isAutonomous()) {
+			m_autonChosen = m_autonController.getAutonChosen();
+			System.out.println("Auton Chosen: " + m_autonChosen);
+		}
 	}
 
 	public void disabledInit() {
 		m_timer.stop();
 		m_timer.reset();
+		m_leds.update(0);
 	}
 
 	public void disabledPeriodic() {
@@ -74,7 +81,8 @@ public class Robot extends IterativeRobot {
 		m_autonController.resetStep();
 		m_drives.resetStep();
 		m_drives.resetNavX();
-		m_autonChosen = (int) SmartDashboard.getNumber("Choose Auton");
+		m_leds.update(1);
+		update();
 	}
 
 	@SuppressWarnings("deprecation")
